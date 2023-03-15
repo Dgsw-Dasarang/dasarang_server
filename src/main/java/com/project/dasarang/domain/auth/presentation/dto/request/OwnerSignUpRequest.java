@@ -8,20 +8,22 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class SignUpRequest {
+public class OwnerSignUpRequest {
 
     private String userId;
     private String password;
     private String address;
     private String number;
     private String birth;
-    private UserType type;
+    private String ownerNumber;
+    private String email;
 
     public User toEntity(String encodedPassword) {
         return User.builder()
-                .userId(this.userId).authority(this.type)
+                .userId(this.userId).authority(UserType.ROLE_OWNER)
                 .password(encodedPassword).address(this.address)
                 .birth(this.birth).number(this.number)
+                .ownerNumber(this.ownerNumber).email(this.email)
                 .build();
     }
 

@@ -1,7 +1,8 @@
 package com.project.dasarang.domain.auth.presentation;
 
+import com.project.dasarang.domain.auth.presentation.dto.request.OwnerSignUpRequest;
 import com.project.dasarang.domain.auth.presentation.dto.request.SignInRequest;
-import com.project.dasarang.domain.auth.presentation.dto.request.SignUpRequest;
+import com.project.dasarang.domain.auth.presentation.dto.request.UserSignUpRequest;
 import com.project.dasarang.domain.auth.presentation.dto.response.UserTokenResponse;
 import com.project.dasarang.domain.auth.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -16,11 +17,19 @@ public class UserController {
     private final UserService userService;
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/sign-up")
+    @PostMapping("/user/sign-up")
     public void userSignUp(
-            @RequestBody SignUpRequest request
+            @RequestBody UserSignUpRequest request
     ) {
         userService.userSignUp(request);
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/owner/sign-up")
+    public void ownerSignUp(
+            @RequestBody OwnerSignUpRequest request
+    ) {
+        userService.ownerSignUp(request);
     }
 
     @PostMapping("/sign-in")

@@ -3,13 +3,12 @@ package com.project.dasarang.domain.auth.service;
 import com.project.dasarang.domain.auth.domain.User;
 import com.project.dasarang.domain.auth.domain.repository.UserRepository;
 import com.project.dasarang.domain.auth.exception.PasswordWrongException;
-import com.project.dasarang.domain.auth.exception.UserAlreadyExistsException;
 import com.project.dasarang.domain.auth.facade.UserFacade;
+import com.project.dasarang.domain.auth.presentation.dto.request.OwnerSignUpRequest;
 import com.project.dasarang.domain.auth.presentation.dto.request.SignInRequest;
-import com.project.dasarang.domain.auth.presentation.dto.request.SignUpRequest;
+import com.project.dasarang.domain.auth.presentation.dto.request.UserSignUpRequest;
 import com.project.dasarang.domain.auth.presentation.dto.response.UserTokenResponse;
 import com.project.dasarang.global.security.jwt.JwtProvider;
-import com.project.dasarang.global.utils.ResponseUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -26,7 +25,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void userSignUp(SignUpRequest request) {
+    public void userSignUp(UserSignUpRequest request) {
+        userFacade.existsByUserId(request.getUserId());
+        User user = request.toEntity(passwordEncoder.encode(request.getPassword()));
+        userRepository.save(user);
+    }
+
+    @Override
+    @Transactional
+    public void ownerSignUp(OwnerSignUpRequest request) {
         userFacade.existsByUserId(request.getUserId());
         User user = request.toEntity(passwordEncoder.encode(request.getPassword()));
         userRepository.save(user);
@@ -43,7 +50,7 @@ public class UserServiceImpl implements UserService {
         return UserTokenResponse.builder()
                 .accessToken(jwtProvider.generateAccessToken(user.getUserId(), user.getAuthority()))
                 .refreshToken(jwtProvider.generateRefreshToken(user.getUserId(), user.getAuthority()))
-                .data(ResponseUtil.getUserResponse(user))
+                .name(user.getUserId()).type(user.getAuthority())
                 .build();
 
     }
