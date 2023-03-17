@@ -46,6 +46,7 @@ public class SecurityConfiguration {
                 .authorizeRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .antMatchers("/auth/**").permitAll()
+                .antMatchers("/education/**").permitAll()
                 .antMatchers("/admin/**").hasRole(UserType.ROLE_ADMIN.getRole())
                 .antMatchers("/owner/**").hasRole(UserType.ROLE_OWNER.getRole())
                 .anyRequest().authenticated()

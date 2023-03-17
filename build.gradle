@@ -19,6 +19,7 @@ repositories {
 }
 
 dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	implementation 'org.springdoc:springdoc-openapi-ui:1.6.9'
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'

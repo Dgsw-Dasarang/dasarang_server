@@ -12,6 +12,7 @@ import org.hibernate.annotations.DynamicInsert;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "tb_user")
 @Getter @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DynamicInsert
 public class User extends BaseTime {
