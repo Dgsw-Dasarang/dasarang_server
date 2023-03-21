@@ -14,5 +14,7 @@ public class AppProperties {
     private String apiUrl;
     private String apiKey;
     private String type;
+    private Integer pIndex;
+    private Integer pSize;
 
 }

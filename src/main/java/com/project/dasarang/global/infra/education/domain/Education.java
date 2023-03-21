@@ -22,6 +22,7 @@ public class Education {
     private String admstZoneName;
 
     // 학원명
+    @Column(unique = true)
     private String academyName;
 
     // 개설 일자
@@ -39,12 +40,25 @@ public class Education {
     // 인당수강료 내용
     @OneToMany(mappedBy = "education", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Tuition> tuitionList;
-    public void addTuition(Tuition tuition) {
-        getTuitionList().add(tuition);
+    public void addTuition(List<Tuition> tuitions) {
+        for (Tuition tuition : tuitions) {
+            tuition.setEducation(this);
+            getTuitionList().add(tuition);
+        }
     }
 
     // 도로명 주소
     private String roadAddress;
+
+    public void updateEducation(String admstZoneName, String academyName, String createdAt, String status, int totalSeats, String courseListName, String roadAddress) {
+        this.admstZoneName = admstZoneName;
+        this.academyName = academyName;
+        this.createdAt = createdAt;
+        this.status = status;
+        this.totalSeats = totalSeats;
+        this.courseListName = courseListName;
+        this.roadAddress = roadAddress;
+    }
 
     @Builder
     public Education(String admstZoneName, String academyName, String createdAt, String status, int totalSeats, String courseListName, String roadAddress) {

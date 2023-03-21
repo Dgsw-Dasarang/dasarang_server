@@ -34,9 +34,11 @@ jwt:
   secret-key: difoi3iu2jioj132890u8979f7dxj1k2nbjkmhcxuasijf879687912yhjkhsdfuoiljkh13
 
 app:
-  apiUrl: https://open.neis.go.kr/hub/acaInsTiInfo
+  apiUrl: https://open.neis.go.kr
   apiKey: 0c593213544f489d8762647e5722794b
   type: json
+  pIndex: 1
+  pSize: 10
 
 server:
   port: 8088
