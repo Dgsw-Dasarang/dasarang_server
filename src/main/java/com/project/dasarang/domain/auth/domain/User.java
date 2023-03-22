@@ -39,7 +39,12 @@ public class User extends BaseTime {
     private UserType authority;
 
     @Enumerated(EnumType.STRING)
-    private UserStatus status = UserStatus.ACTIVE;
+    private UserStatus status;
+
+    @PrePersist
+    public void prePersist() {
+        this.status = this.status == null ? UserStatus.ACTIVE : this.status;
+    }
 
     public void updateUser(String userId, String address, String number, String birth) {
         this.userId = userId;
