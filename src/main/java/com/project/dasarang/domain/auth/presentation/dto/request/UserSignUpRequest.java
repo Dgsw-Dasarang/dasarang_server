@@ -1,7 +1,7 @@
 package com.project.dasarang.domain.auth.presentation.dto.request;
 
-import com.project.dasarang.domain.auth.domain.User;
-import com.project.dasarang.domain.auth.domain.enums.UserType;
+import com.project.dasarang.domain.user.domain.User;
+import com.project.dasarang.domain.user.domain.enums.UserType;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

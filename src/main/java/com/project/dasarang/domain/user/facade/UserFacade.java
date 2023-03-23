@@ -1,14 +1,12 @@
-package com.project.dasarang.domain.auth.facade;
+package com.project.dasarang.domain.user.facade;
 
-import com.project.dasarang.domain.auth.domain.User;
-import com.project.dasarang.domain.auth.domain.repository.UserRepository;
-import com.project.dasarang.domain.auth.exception.PasswordWrongException;
-import com.project.dasarang.domain.auth.exception.UserAlreadyExistsException;
-import com.project.dasarang.domain.auth.exception.UserNotFoundException;
+import com.project.dasarang.domain.user.domain.User;
+import com.project.dasarang.domain.user.domain.repository.UserRepository;
+import com.project.dasarang.domain.user.exception.UserAlreadyExistsException;
+import com.project.dasarang.domain.user.exception.UserNotFoundException;
 import com.project.dasarang.global.security.auth.AuthDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 

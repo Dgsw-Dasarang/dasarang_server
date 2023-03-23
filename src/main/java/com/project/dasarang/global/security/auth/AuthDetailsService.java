@@ -1,7 +1,7 @@
 package com.project.dasarang.global.security.auth;
 
-import com.project.dasarang.domain.auth.domain.repository.UserRepository;
-import com.project.dasarang.domain.auth.exception.UserNotFoundException;
+import com.project.dasarang.domain.user.domain.repository.UserRepository;
+import com.project.dasarang.domain.user.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

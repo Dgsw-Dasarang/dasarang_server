@@ -1,6 +1,6 @@
-package com.project.dasarang.domain.auth.domain.repository;
+package com.project.dasarang.domain.user.domain.repository;
 
-import com.project.dasarang.domain.auth.domain.User;
+import com.project.dasarang.domain.user.domain.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

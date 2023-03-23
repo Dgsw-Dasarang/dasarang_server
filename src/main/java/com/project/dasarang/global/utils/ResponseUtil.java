@@ -1,13 +1,11 @@
 package com.project.dasarang.global.utils;
 
-import com.project.dasarang.domain.auth.domain.User;
-import com.project.dasarang.domain.auth.presentation.dto.response.UserResponse;
-import com.project.dasarang.domain.education.presentation.dto.response.EducationListResponse;
+import com.project.dasarang.domain.user.domain.User;
+import com.project.dasarang.domain.user.presentation.dto.response.UserResponse;
 import com.project.dasarang.domain.education.presentation.dto.response.EducationResponse;
 import com.project.dasarang.domain.education.presentation.dto.response.TuitionResponse;
 import com.project.dasarang.global.infra.education.domain.Education;
 import com.project.dasarang.global.infra.education.domain.Tuition;
-import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.stream.Collectors;

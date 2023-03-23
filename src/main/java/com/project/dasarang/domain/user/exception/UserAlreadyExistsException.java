@@ -1,4 +1,4 @@
-package com.project.dasarang.domain.auth.exception;
+package com.project.dasarang.domain.user.exception;
 
 import com.project.dasarang.global.exception.BusinessException;
 import com.project.dasarang.global.exception.error.ErrorCode;

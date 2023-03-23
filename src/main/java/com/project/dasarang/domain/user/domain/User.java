@@ -1,7 +1,7 @@
-package com.project.dasarang.domain.auth.domain;
+package com.project.dasarang.domain.user.domain;
 
-import com.project.dasarang.domain.auth.domain.enums.UserStatus;
-import com.project.dasarang.domain.auth.domain.enums.UserType;
+import com.project.dasarang.domain.user.domain.enums.UserStatus;
+import com.project.dasarang.domain.user.domain.enums.UserType;
 import com.project.dasarang.global.entity.BaseTime;
 import lombok.AccessLevel;
 import lombok.Builder;

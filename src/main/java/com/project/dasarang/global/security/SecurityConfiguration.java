@@ -1,6 +1,6 @@
 package com.project.dasarang.global.security;
 
-import com.project.dasarang.domain.auth.domain.enums.UserType;
+import com.project.dasarang.domain.user.domain.enums.UserType;
 import com.project.dasarang.global.security.jwt.JwtProvider;
 import com.project.dasarang.global.security.jwt.filter.JwtFilter;
 import lombok.RequiredArgsConstructor;

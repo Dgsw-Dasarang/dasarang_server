@@ -1,13 +1,13 @@
 package com.project.dasarang.domain.auth.service;
 
-import com.project.dasarang.domain.auth.domain.User;
-import com.project.dasarang.domain.auth.domain.repository.UserRepository;
-import com.project.dasarang.domain.auth.exception.PasswordWrongException;
-import com.project.dasarang.domain.auth.facade.UserFacade;
+import com.project.dasarang.domain.user.domain.User;
+import com.project.dasarang.domain.user.domain.repository.UserRepository;
+import com.project.dasarang.domain.user.exception.PasswordWrongException;
+import com.project.dasarang.domain.user.facade.UserFacade;
 import com.project.dasarang.domain.auth.presentation.dto.request.OwnerSignUpRequest;
 import com.project.dasarang.domain.auth.presentation.dto.request.SignInRequest;
 import com.project.dasarang.domain.auth.presentation.dto.request.UserSignUpRequest;
-import com.project.dasarang.domain.auth.presentation.dto.response.UserTokenResponse;
+import com.project.dasarang.domain.auth.presentation.dto.response.TokenResponse;
 import com.project.dasarang.global.security.jwt.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService {
+public class AuthServiceImpl implements AuthService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -41,13 +41,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public UserTokenResponse userSignIn(SignInRequest request) {
+    public TokenResponse signIn(SignInRequest request) {
         User user = userFacade.findUserByUserId(request.getUserId());
 
         if(!passwordEncoder.matches(request.getPassword(), user.getPassword()))
             throw PasswordWrongException.EXCEPTION;
 
-        return UserTokenResponse.builder()
+        return TokenResponse.builder()
                 .accessToken(jwtProvider.generateAccessToken(user.getUserId(), user.getAuthority()))
                 .refreshToken(jwtProvider.generateRefreshToken(user.getUserId(), user.getAuthority()))
                 .name(user.getUserId()).type(user.getAuthority())

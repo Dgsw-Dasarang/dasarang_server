@@ -1,4 +1,4 @@
-package com.project.dasarang.domain.auth.domain.enums;
+package com.project.dasarang.domain.user.domain.enums;
 
 public enum UserStatus {
 

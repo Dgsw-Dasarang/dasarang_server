@@ -1,4 +1,4 @@
-package com.project.dasarang.domain.auth.domain.enums;
+package com.project.dasarang.domain.user.domain.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

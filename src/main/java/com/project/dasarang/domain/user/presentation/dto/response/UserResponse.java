@@ -1,4 +1,4 @@
-package com.project.dasarang.domain.auth.presentation.dto.response;
+package com.project.dasarang.domain.user.presentation.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

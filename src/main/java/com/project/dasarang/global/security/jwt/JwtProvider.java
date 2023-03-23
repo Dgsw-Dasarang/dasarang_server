@@ -1,7 +1,7 @@
 package com.project.dasarang.global.security.jwt;
 
 import com.project.dasarang.domain.auth.domain.RefreshToken;
-import com.project.dasarang.domain.auth.domain.enums.UserType;
+import com.project.dasarang.domain.user.domain.enums.UserType;
 import com.project.dasarang.domain.auth.domain.repository.RefreshTokenRepository;
 import com.project.dasarang.global.security.auth.AuthDetailsService;
 import com.project.dasarang.global.security.auth.UserToken;
