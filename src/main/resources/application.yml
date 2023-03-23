@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: jdbc:mysql://dasarang.cnox2n905hyk.us-east-1.rds.amazonaws.com:3306/dasarang?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: dasarang
-    password: Dasarang12!!
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
   jpa:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL8Dialect
@@ -27,18 +27,18 @@ spring:
     port: 6379
 
 jwt:
-  refresh-exp: 2592000000
-  access-exp: 3600000
-  prefix: Bearer
-  header: Authorization
-  secret-key: difoi3iu2jioj132890u8979f7dxj1k2nbjkmhcxuasijf879687912yhjkhsdfuoiljkh13
+  refresh-exp: ${JWT_REFRESH_EXP}
+  access-exp: ${JWT_ACCESS_EXP}
+  prefix: ${JWT_PREFIX}
+  header: ${JWT_HEADER}
+  secret-key: ${JWT_SECRET_KEY}
 
 app:
-  apiUrl: https://open.neis.go.kr
-  apiKey: 0c593213544f489d8762647e5722794b
-  type: json
-  pIndex: 1
-  pSize: 10
+  apiUrl: ${APP_API_URL}
+  apiKey: ${APP_API_KEY}
+  type: ${APP_TYPE}
+  pIndex: ${APP_PINDEX}
+  pSize: ${APP_PSIZE}
 
 server:
   port: 8088
