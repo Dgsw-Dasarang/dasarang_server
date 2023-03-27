@@ -49,6 +49,7 @@ public class SecurityConfiguration {
                 .antMatchers("/education/**").permitAll()
                 .antMatchers("/admin/**").hasRole(UserType.ROLE_ADMIN.getRole())
                 .antMatchers("/owner/**").hasRole(UserType.ROLE_OWNER.getRole())
+                .antMatchers("/daum.html").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JwtFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class);
