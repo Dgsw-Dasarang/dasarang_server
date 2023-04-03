@@ -5,11 +5,12 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @Slf4j
 @RestControllerAdvice
-public class ExceptionHandler {
+public class ExceptionAdvice {
 
     @Getter @Builder
     @RequiredArgsConstructor
@@ -18,7 +19,7 @@ public class ExceptionHandler {
         private final String message;
     }
 
-    @org.springframework.web.bind.annotation.ExceptionHandler({BusinessException.class})
+    @ExceptionHandler({BusinessException.class})
     public ResponseEntity<ErrorResponse> handleException(BusinessException ex) {
         ErrorResponse response = ErrorResponse.builder()
                 .status(ex.getError().getStatus().value())

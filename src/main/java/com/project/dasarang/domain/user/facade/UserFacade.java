@@ -1,11 +1,15 @@
 package com.project.dasarang.domain.user.facade;
 
+import com.project.dasarang.domain.admin.exception.AdminForbiddenException;
 import com.project.dasarang.domain.user.domain.User;
+import com.project.dasarang.domain.user.domain.enums.UserType;
 import com.project.dasarang.domain.user.domain.repository.UserRepository;
 import com.project.dasarang.domain.user.exception.UserAlreadyExistsException;
 import com.project.dasarang.domain.user.exception.UserNotFoundException;
 import com.project.dasarang.global.security.auth.AuthDetails;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +23,12 @@ public class UserFacade {
     public User getCurrentUser() {
         AuthDetails auth = (AuthDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return auth.getUser();
+    }
+
+    public void checkPermissions() {
+        User user = getCurrentUser();
+        if(!user.getAuthority().equals(UserType.ROLE_ADMIN))
+            throw AdminForbiddenException.EXCEPTION;
     }
 
     @Transactional(readOnly = true)
@@ -37,6 +47,11 @@ public class UserFacade {
     public User findUserByUserId(String userId) {
         return userRepository.findByUserId(userId)
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<User> findAllUser(Pageable pageable, UserType type) {
+        return userRepository.findAllByAuthority(pageable, type);
     }
 
 }

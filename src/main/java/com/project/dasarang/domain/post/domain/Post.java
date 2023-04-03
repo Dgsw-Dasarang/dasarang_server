@@ -1,12 +1,18 @@
 package com.project.dasarang.domain.post.domain;
 
+import com.project.dasarang.domain.upload.domain.Image;
+import com.project.dasarang.domain.post.domain.enums.Category;
+import com.project.dasarang.domain.user.domain.User;
 import com.project.dasarang.global.entity.BaseTime;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "tb_post")
@@ -18,6 +24,31 @@ public class Post extends BaseTime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long postId;
 
+    private String title;
+    private String content;
+    @Enumerated(EnumType.STRING)
+    private Category category;
 
+    @ManyToOne
+    @JoinColumn(name = "fk_user_id")
+    private User author;
+    public void setAuthor(User author) {
+        this.author = author;
+    }
 
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Image> imageList;
+    public void addImage(List<Image> image) {
+        image.stream().map(it ->
+            getImageList().add(it)
+        ).close();
+    }
+
+    @Builder
+    public Post(String title, String content, Category category) {
+        this.title = title;
+        this.content = content;
+        this.category = category;
+        this.imageList = new ArrayList<>();
+    }
 }

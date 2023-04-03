@@ -19,6 +19,7 @@ repositories {
 }
 
 dependencies {
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 	implementation group: 'org.json', name: 'json', version: '20090211'
 	implementation group: 'com.google.code.gson', name: 'gson', version: '2.10.1'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'

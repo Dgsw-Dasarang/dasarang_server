@@ -34,23 +34,31 @@ public class EducationServiceImpl implements EducationService{
         Pageable pageable = PageRequest.of(page - 1, size);
         Page<Education> educations = educationFacade.findEducationAll(pageable);
 
-        List<EducationResponse> responses = educations.map(education -> {
+        List<EducationResponse> responses = educations.stream().map(education -> {
             List<Tuition> tuitions = educationFacade.findTuitionAllByEducation(education);
             return ResponseUtil.getEducationResponse(education, tuitions);
-        }).stream().collect(Collectors.toList());
+        }).collect(Collectors.toList());
 
-        return new EducationListResponse(responses);
+        return EducationListResponse.builder()
+                .currentPage(educations.getNumber() + 1)
+                .hasMorePage(educations.getTotalPages() > educations.getNumber())
+                .list(responses)
+                .build();
     }
 
     @Override
     public EducationListResponse getEducationAllByStatus(String status, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<Education> educations = educationFacade.findEducationAllByStatus(pageable, status);
-        List<EducationResponse> responses = educations.map(education -> {
+        List<EducationResponse> responses = educations.stream().map(education -> {
             List<Tuition> tuitions = educationFacade.findTuitionAllByEducation(education);
             return ResponseUtil.getEducationResponse(education, tuitions);
-        }).stream().collect(Collectors.toList());
+        }).collect(Collectors.toList());
 
-        return new EducationListResponse(responses);
+        return EducationListResponse.builder()
+                .currentPage(educations.getNumber() + 1)
+                .hasMorePage(educations.getTotalPages() > educations.getNumber())
+                .list(responses)
+                .build();
     }
 }

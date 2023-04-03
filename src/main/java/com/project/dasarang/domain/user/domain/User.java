@@ -1,5 +1,7 @@
 package com.project.dasarang.domain.user.domain;
 
+import com.project.dasarang.domain.post.domain.Post;
+import com.project.dasarang.domain.upload.domain.Image;
 import com.project.dasarang.domain.user.domain.enums.UserStatus;
 import com.project.dasarang.domain.user.domain.enums.UserType;
 import com.project.dasarang.global.entity.BaseTime;
@@ -10,6 +12,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "tb_user")
@@ -41,6 +45,20 @@ public class User extends BaseTime {
     @Enumerated(EnumType.STRING)
     private UserStatus status;
 
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<Image> imageList;
+    public void addImage(Image image) {
+        image.setAuthor(this);
+        getImageList().add(image);
+    }
+
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Post> postList;
+    public void addPost(Post post) {
+        post.setAuthor(this);
+        getPostList().add(post);
+    }
+
     @PrePersist
     public void prePersist() {
         this.status = this.status == null ? UserStatus.ACTIVE : this.status;
@@ -67,5 +85,6 @@ public class User extends BaseTime {
         this.number = number;
         this.birth = birth;
         this.authority = authority;
+        this.postList = new ArrayList<>();
     }
 }
