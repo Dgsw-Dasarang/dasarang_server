@@ -23,13 +23,12 @@ public class UploadController {
     @Operation(summary = "이미지 업로드")
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
-    public Long uploadImage(
+    public List<Long> uploadImage(
             @RequestParam("type") ImageType type,
-            @RequestParam("image") MultipartFile file
+            @RequestParam("image") List<MultipartFile> files
     ) {
-        return uploadService.uploadImage(file, type);
+        return uploadService.uploadImage(files, type);
     }
-
     @Operation(summary = "게시글의 모든 이미지 가져오기")
     @GetMapping("/{post-id}")
     public List<String> getImageByPost(

@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface UploadService {
 
-    Long uploadImage(MultipartFile file, ImageType type);
+    List<Long> uploadImage(List<MultipartFile> file, ImageType type);
 
     List<String> getImageUrlByPost(Long post_id);
 

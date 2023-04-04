@@ -29,13 +29,18 @@ public class UploadServiceImpl implements UploadService {
 
     @Override
     @Transactional
-    public Long uploadImage(MultipartFile file, ImageType type) {
+    public List<Long> uploadImage(List<MultipartFile> files, ImageType type) {
         User user = userFacade.getCurrentUser();
-        String url = s3Service.s3UploadFile(user, file, type);
-        Image image = new Image(url, type);
-        user.addImage(image);
+        List<Image> images = files.stream()
+                .map(file -> {
+                    String url = s3Service.s3UploadFile(user, file, type);
+                    return new Image(url, type);
+                }).peek(image -> image.setAuthor(user))
+                .collect(Collectors.toList());
+        user.addImage(images);
 
-        return imageRepository.save(image).getImageId();
+        return imageRepository.saveAll(images).stream().map(Image::getImageId)
+                .collect(Collectors.toList());
     }
 
     @Override

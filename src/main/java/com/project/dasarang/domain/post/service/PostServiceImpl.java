@@ -10,12 +10,14 @@ import com.project.dasarang.domain.post.presentation.dto.response.PostResponse;
 import com.project.dasarang.domain.upload.domain.Image;
 import com.project.dasarang.domain.upload.domain.repository.ImageRepository;
 import com.project.dasarang.domain.upload.exception.ImageNotFoundException;
+import com.project.dasarang.domain.upload.exception.ImageUsedException;
 import com.project.dasarang.domain.upload.exception.ImageWrongException;
 import com.project.dasarang.domain.upload.facade.UploadFacade;
 import com.project.dasarang.domain.user.domain.User;
 import com.project.dasarang.domain.user.domain.enums.UserType;
 import com.project.dasarang.domain.user.facade.UserFacade;
 import com.project.dasarang.global.utils.ResponseUtil;
+import io.netty.util.internal.ObjectUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -26,6 +28,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -53,6 +56,9 @@ public class PostServiceImpl implements PostService {
             List<Image> imageList = request.getImages().stream().map(item -> {
                 Image image = imageRepository.findById(item)
                         .orElseThrow(() -> ImageNotFoundException.EXCEPTION);
+
+                if(!Objects.isNull(image.getPost()))
+                    throw ImageUsedException.EXCEPTION;
 
                 if(!image.getAuthor().getId().equals(user.getId()))
                     throw ImageWrongException.EXCEPTION;

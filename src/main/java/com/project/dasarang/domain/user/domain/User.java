@@ -47,9 +47,10 @@ public class User extends BaseTime {
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Image> imageList;
-    public void addImage(Image image) {
-        image.setAuthor(this);
-        getImageList().add(image);
+    public void addImage(List<Image> images) {
+        images.stream().map(image ->
+                getImageList().add(image)
+        ).close();
     }
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
