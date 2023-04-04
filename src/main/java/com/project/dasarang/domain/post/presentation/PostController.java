@@ -3,6 +3,7 @@ package com.project.dasarang.domain.post.presentation;
 import com.project.dasarang.domain.post.presentation.dto.request.CreatePostRequest;
 import com.project.dasarang.domain.post.service.PostService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/post")
 @RequiredArgsConstructor
+@Tag(name = "글 서버")
 public class PostController {
 
     private final PostService postService;
