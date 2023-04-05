@@ -6,6 +6,7 @@ import lombok.Getter;
 
 import java.util.List;
 
+
 @Getter @Builder
 @AllArgsConstructor
 public class EducationResponse {
