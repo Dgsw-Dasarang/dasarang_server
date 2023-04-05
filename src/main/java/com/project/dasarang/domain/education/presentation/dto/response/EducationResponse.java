@@ -15,7 +15,7 @@ public class EducationResponse {
     private String createdAt;
     private String status;
     private int totalSeats;
-    private String courseListName;
+    private String courseName;
     private List<TuitionResponse> tuitions;
     private String roadAddress;
 

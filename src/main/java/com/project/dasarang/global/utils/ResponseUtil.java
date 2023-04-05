@@ -33,7 +33,7 @@ public class ResponseUtil {
                 .createdAt(education.getCreatedAt())
                 .status(education.getStatus())
                 .totalSeats(education.getTotalSeats())
-                .courseListName(education.getCourseName())
+                .courseName(education.getCourseName())
                 .tuitions(tuitions != null ? tuitions.stream().map(ResponseUtil::getTuitionResponse).collect(Collectors.toList()) : null)
                 .roadAddress(education.getRoadAddress())
                 .build();
