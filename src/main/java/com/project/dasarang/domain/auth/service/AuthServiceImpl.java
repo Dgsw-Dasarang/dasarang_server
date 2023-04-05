@@ -1,6 +1,8 @@
 package com.project.dasarang.domain.auth.service;
 
+import com.project.dasarang.domain.auth.domain.repository.RefreshTokenRepository;
 import com.project.dasarang.domain.user.domain.User;
+import com.project.dasarang.domain.user.domain.enums.UserType;
 import com.project.dasarang.domain.user.domain.repository.UserRepository;
 import com.project.dasarang.domain.user.exception.PasswordWrongException;
 import com.project.dasarang.domain.user.facade.UserFacade;
@@ -9,6 +11,8 @@ import com.project.dasarang.domain.auth.presentation.dto.request.SignInRequest;
 import com.project.dasarang.domain.auth.presentation.dto.request.UserSignUpRequest;
 import com.project.dasarang.domain.auth.presentation.dto.response.TokenResponse;
 import com.project.dasarang.global.security.jwt.JwtProvider;
+import com.project.dasarang.global.security.jwt.exception.ExpiredTokenException;
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,6 +24,7 @@ public class AuthServiceImpl implements AuthService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final RefreshTokenRepository refreshTokenRepository;
     private final JwtProvider jwtProvider;
     private final UserFacade userFacade;
 
@@ -52,6 +57,11 @@ public class AuthServiceImpl implements AuthService {
                 .refreshToken(jwtProvider.generateRefreshToken(user.getUserId(), user.getAuthority()))
                 .name(user.getUserId()).type(user.getAuthority())
                 .build();
+    }
 
+    @Override
+    @Transactional
+    public String refreshAccessToken(String token) {
+        return jwtProvider.generateAccessTokenByRefreshToken(token);
     }
 }

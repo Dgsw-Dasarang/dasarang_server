@@ -2,6 +2,7 @@ package com.project.dasarang.global.security.jwt.filter;
 
 import com.project.dasarang.global.security.jwt.JwtProvider;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@Slf4j
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
 
@@ -20,8 +22,15 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = jwtProvider.resolveToken(request);
+        String path = request.getServletPath();
 
+        log.info("Path : " + path);
         if(token != null) {
+            if(path.equals("/auth/refresh")) {
+                String accessToken = jwtProvider.generateAccessTokenByRefreshToken(token);
+                request.setAttribute("accessToken", accessToken);
+                filterChain.doFilter(request, response);
+            }
             Authentication authentication = jwtProvider.authentication(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }

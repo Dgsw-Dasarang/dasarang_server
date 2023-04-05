@@ -14,7 +14,7 @@ public class RowDto implements Serializable {
     private String ESTBL_YMD;
     private String REG_STTUS_NM;
     private int TOFOR_SMTOT;
-    private String LE_CRSE_LIST_NM;
+    private String LE_CRSE_NM;
     private String PSNBY_THCC_CNTNT;
     private String FA_RDNMA;
 
@@ -25,7 +25,7 @@ public class RowDto implements Serializable {
                 .createdAt(this.ESTBL_YMD)
                 .status(this.REG_STTUS_NM)
                 .totalSeats(this.TOFOR_SMTOT)
-                .courseListName(this.LE_CRSE_LIST_NM)
+                .courseName(this.LE_CRSE_NM)
                 .roadAddress(this.FA_RDNMA)
                 .build();
     }

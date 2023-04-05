@@ -18,7 +18,7 @@ public class ResponseUtil {
 
     public static UserResponse getUserResponse(User user) {
         return UserResponse.builder()
-                .userId(user.getUserId()).password(user.getPassword())
+                .userId(user.getUserId())
                 .address(user.getAddress()).number(user.getNumber())
                 .type(user.getAuthority().getRole()).address(user.getAddress())
                 .ownerNumber(user.getOwnerNumber()).email(user.getEmail())
@@ -33,7 +33,7 @@ public class ResponseUtil {
                 .createdAt(education.getCreatedAt())
                 .status(education.getStatus())
                 .totalSeats(education.getTotalSeats())
-                .courseListName(education.getCourseListName())
+                .courseListName(education.getCourseName())
                 .tuitions(tuitions != null ? tuitions.stream().map(ResponseUtil::getTuitionResponse).collect(Collectors.toList()) : null)
                 .roadAddress(education.getRoadAddress())
                 .build();

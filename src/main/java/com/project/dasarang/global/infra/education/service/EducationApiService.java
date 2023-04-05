@@ -48,7 +48,7 @@ public class EducationApiService {
                 if(!checkTuition) education.addTuition(getTuitionList(item.getPSNBY_THCC_CNTNT()));
                 education.updateEducation(item.getADMST_ZONE_NM(), item.getACA_NM(),
                         item.getESTBL_YMD(), item.getREG_STTUS_NM(),
-                        item.getTOFOR_SMTOT(), item.getLE_CRSE_LIST_NM(),
+                        item.getTOFOR_SMTOT(), item.getLE_CRSE_NM(),
                         item.getFA_RDNMA());
                 educationRepository.save(education);
             } else {
@@ -93,7 +93,7 @@ public class EducationApiService {
                 .ESTBL_YMD(data.get("ESTBL_YMD").toString())
                 .REG_STTUS_NM(data.get("REG_STTUS_NM").toString())
                 .TOFOR_SMTOT((Integer) data.get("TOFOR_SMTOT"))
-                .LE_CRSE_LIST_NM(data.get("LE_CRSE_LIST_NM").toString())
+                .LE_CRSE_NM(data.get("LE_CRSE_NM").toString())
                 .PSNBY_THCC_CNTNT(data.get("PSNBY_THCC_CNTNT").toString())
                 .FA_RDNMA(data.get("FA_RDNMA").toString())
                 .build();

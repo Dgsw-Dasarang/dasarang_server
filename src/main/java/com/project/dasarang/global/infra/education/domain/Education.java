@@ -34,8 +34,8 @@ public class Education {
     // 정원합계
     private int totalSeats;
 
-    // 교습과정목록명
-    private String courseListName;
+    // 교습과정명
+    private String courseName;
 
     // 인당수강료 내용
     @OneToMany(mappedBy = "education", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -50,24 +50,24 @@ public class Education {
     // 도로명 주소
     private String roadAddress;
 
-    public void updateEducation(String admstZoneName, String academyName, String createdAt, String status, int totalSeats, String courseListName, String roadAddress) {
+    public void updateEducation(String admstZoneName, String academyName, String createdAt, String status, int totalSeats, String courseName, String roadAddress) {
         this.admstZoneName = admstZoneName;
         this.academyName = academyName;
         this.createdAt = createdAt;
         this.status = status;
         this.totalSeats = totalSeats;
-        this.courseListName = courseListName;
+        this.courseName = courseName;
         this.roadAddress = roadAddress;
     }
 
     @Builder
-    public Education(String admstZoneName, String academyName, String createdAt, String status, int totalSeats, String courseListName, String roadAddress) {
+    public Education(String admstZoneName, String academyName, String createdAt, String status, int totalSeats, String courseName, String roadAddress) {
         this.admstZoneName = admstZoneName;
         this.academyName = academyName;
         this.createdAt = createdAt;
         this.status = status;
         this.totalSeats = totalSeats;
-        this.courseListName = courseListName;
+        this.courseName = courseName;
         this.tuitionList = new ArrayList<>();
         this.roadAddress = roadAddress;
     }

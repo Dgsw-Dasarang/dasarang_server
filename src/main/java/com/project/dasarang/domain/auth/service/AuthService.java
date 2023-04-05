@@ -10,5 +10,6 @@ public interface AuthService {
     void userSignUp(UserSignUpRequest request);
     void ownerSignUp(OwnerSignUpRequest request);
     TokenResponse signIn(SignInRequest request);
+    String refreshAccessToken(String refreshToken);
 
 }

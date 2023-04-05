@@ -45,4 +45,12 @@ public class AuthController {
         return userService.signIn(request);
     }
 
+    @Operation(summary = "토큰 재발급")
+    @GetMapping("/refresh")
+    public String refreshAccessToken(
+            @RequestHeader("Authorization") String token
+    ) {
+        return userService.refreshAccessToken(token);
+    }
+
 }

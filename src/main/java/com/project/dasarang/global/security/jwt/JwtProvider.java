@@ -12,7 +12,9 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.Date;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class JwtProvider {
@@ -37,6 +40,16 @@ public class JwtProvider {
 
         refreshTokenRepository.save(new RefreshToken(token, id));
         return token;
+    }
+
+    @Transactional
+    public String generateAccessTokenByRefreshToken(String token) {
+        refreshTokenRepository.findById(token)
+                .orElseThrow(() -> ExpiredTokenException.EXCEPTION);
+
+        Claims claims = getTokenBody(token);
+
+        return generateAccessToken(claims.getSubject(), UserType.valueOf(claims.get("type").toString()));
     }
 
     @Transactional
@@ -75,7 +88,7 @@ public class JwtProvider {
                 .setSubject(id)
                 .claim("type", type)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + exp * 1000))
+                .setExpiration(new Date(System.currentTimeMillis() + exp))
                 .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey())
                 .compact();
     }
