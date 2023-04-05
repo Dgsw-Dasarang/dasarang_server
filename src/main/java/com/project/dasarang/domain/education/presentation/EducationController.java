@@ -3,9 +3,12 @@ package com.project.dasarang.domain.education.presentation;
 import com.project.dasarang.domain.education.presentation.dto.response.EducationListResponse;
 import com.project.dasarang.domain.education.presentation.dto.response.EducationResponse;
 import com.project.dasarang.domain.education.service.EducationService;
+import com.project.dasarang.global.infra.education.service.EducationApiService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.json.JSONException;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 public class EducationController {
 
     private final EducationService educationService;
+    private final EducationApiService educationApiService;
 
     @Operation(summary = "학원명으로 학원데이터 조회하기")
     @GetMapping("/{academy-name}")
@@ -41,6 +45,15 @@ public class EducationController {
             @PathVariable("status") String status
     ) {
         return educationService.getEducationAllByStatus(status, page, size);
+    }
+
+    @Operation(summary = "API 데이터 업데이트")
+    @ResponseStatus(HttpStatus.CREATED)
+    @PatchMapping("/api/update")
+    public void apiUpdate(
+            @RequestParam("code") String code
+    ) throws JSONException {
+        educationApiService.execute(code);
     }
 
 }
