@@ -56,6 +56,7 @@ public class SecurityConfiguration {
                 .antMatchers(HttpMethod.POST, "/upload/**").hasRole(UserType.ROLE_OWNER.getRole())
                 .antMatchers(HttpMethod.GET, "/upload/**").permitAll()
                 .antMatchers("/daum.html").permitAll()
+                .antMatchers("/policy.html").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JwtFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class);
