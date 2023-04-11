@@ -6,10 +6,7 @@ import com.project.dasarang.domain.user.presentation.dto.response.UserListRespon
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/admin")
@@ -35,6 +32,14 @@ public class UserAdminController {
             @RequestParam("size") int size
     ) {
         return userAdminService.getUserList(page, size, UserType.ROLE_OWNER);
+    }
+
+    @Operation(summary = "업주 승인")
+    @PatchMapping("/owner/approve/{id}")
+    public void approveOwner(
+            @PathVariable("id") Long id
+    ) {
+        userAdminService.approveOwner(id);
     }
 
 }

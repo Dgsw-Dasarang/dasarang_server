@@ -1,7 +1,10 @@
 package com.project.dasarang.domain.admin.service;
 
 import com.project.dasarang.domain.user.domain.User;
+import com.project.dasarang.domain.user.domain.enums.UserStatus;
 import com.project.dasarang.domain.user.domain.enums.UserType;
+import com.project.dasarang.domain.user.domain.repository.UserRepository;
+import com.project.dasarang.domain.user.exception.UserAlreadyActiveException;
 import com.project.dasarang.domain.user.facade.UserFacade;
 import com.project.dasarang.domain.user.presentation.dto.response.UserListResponse;
 import com.project.dasarang.domain.user.presentation.dto.response.UserResponse;
@@ -21,6 +24,7 @@ import java.util.stream.Collectors;
 public class UserAdminServiceImpl implements UserAdminService {
 
     private final UserFacade userFacade;
+    private final UserRepository userRepository;
 
     @Override
     public UserListResponse getUserList(int page, int size, UserType type) {
@@ -37,6 +41,18 @@ public class UserAdminServiceImpl implements UserAdminService {
                 .hasMorePage(users.getTotalPages() > users.getNumber())
                 .list(list)
                 .build();
+    }
+
+    @Override
+    public void approveOwner(Long id) {
+        userFacade.checkPermissions();
+        User user = userFacade.findUserById(id);
+
+        if(user.getStatus().equals(UserStatus.ACTIVE))
+            throw UserAlreadyActiveException.EXCEPTION;
+
+        user.setStatus(UserStatus.ACTIVE);
+        userRepository.save(user);
     }
 
 }

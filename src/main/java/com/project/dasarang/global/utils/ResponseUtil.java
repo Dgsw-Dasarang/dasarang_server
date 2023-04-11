@@ -45,12 +45,12 @@ public class ResponseUtil {
                 .build();
     }
 
-    public static PostResponse getPostResponse(Post post, List<Image> images) {
+    public static PostResponse getPostResponse(Post post, List<Image> images, String academyName) {
         return PostResponse.builder()
                 .postId(post.getPostId())
                 .title(post.getTitle())
                 .content(post.getContent())
-                .category(post.getCategory())
+                .academyName(academyName)
                 .images(images != null ? images.stream().map(ResponseUtil::getImageResponse).collect(Collectors.toList()) : null)
                 .build();
     }

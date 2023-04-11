@@ -46,18 +46,34 @@ public class SecurityConfiguration {
                 .and()
                 .authorizeRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                .antMatchers("/auth/**").permitAll()
+
+                // 인증 서버
+                .antMatchers(HttpMethod.POST, "/auth/**").permitAll() // 로그인, 회원가입
+                .antMatchers(HttpMethod.GET, "/auth/refresh").authenticated() // 토큰 재발급
+
+                // 유저 서버
+                .antMatchers(HttpMethod.GET, "/user/**").authenticated() // 유저 정보
+
+                // 교육 서버
+                .antMatchers(HttpMethod.GET, "/education/num/**").hasRole(UserType.ROLE_OWNER.getRole())
                 .antMatchers(HttpMethod.GET, "/education/**").permitAll()
-                .antMatchers(HttpMethod.PATCH, "/education/api/update").hasRole(UserType.ROLE_ADMIN.getRole())
-                .antMatchers("/admin/**").hasRole(UserType.ROLE_ADMIN.getRole())
-                .antMatchers("/owner/**").hasRole(UserType.ROLE_OWNER.getRole())
+                .antMatchers(HttpMethod.PATCH, "/education/**").hasRole(UserType.ROLE_ADMIN.getRole())
+
+                // 글 서버
                 .antMatchers(HttpMethod.POST, "/post/**").hasRole(UserType.ROLE_OWNER.getRole())
                 .antMatchers(HttpMethod.GET, "/post/**").permitAll()
+
+                // 이미지 서버
                 .antMatchers(HttpMethod.POST, "/upload/**").hasRole(UserType.ROLE_OWNER.getRole())
                 .antMatchers(HttpMethod.GET, "/upload/**").permitAll()
-                .antMatchers("/daum.html").permitAll()
-                .antMatchers("/policy.html").permitAll()
-                .anyRequest().authenticated()
+
+                // 관리자 서버
+                .antMatchers("/admin/**").hasRole(UserType.ROLE_ADMIN.getRole())
+
+                // 정적 페이지
+                .antMatchers("/*.html").permitAll()
+
+                .anyRequest().denyAll()
                 .and()
                 .addFilterBefore(new JwtFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class);
 

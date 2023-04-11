@@ -1,5 +1,6 @@
 package com.project.dasarang.domain.education.facade;
 
+import com.project.dasarang.domain.education.domain.enums.EducationCategory;
 import com.project.dasarang.domain.education.exception.EducationNotFoundException;
 import com.project.dasarang.global.infra.education.domain.Education;
 import com.project.dasarang.global.infra.education.domain.Tuition;
@@ -15,30 +16,36 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class EducationFacade {
 
     private final EducationRepository educationRepository;
     private final TuitionRepository tuitionRepository;
 
-    @Transactional(readOnly = true)
+    public Education findEducationByAcaAsnum(String acaAsnum) {
+        return educationRepository.findByAcaAsnum(acaAsnum)
+                .orElseThrow(() -> EducationNotFoundException.EXCEPTION);
+    }
+
     public Education findEducationByAcademyName(String academyName) {
         return educationRepository.findByAcademyName(academyName)
                 .orElseThrow(() -> EducationNotFoundException.EXCEPTION);
     }
 
-    @Transactional(readOnly = true)
     public List<Tuition> findTuitionAllByEducation(Education education) {
         return tuitionRepository.findAllByEducation(education);
     }
 
-    @Transactional(readOnly = true)
     public Page<Education> findEducationAll(Pageable pageable) {
         return educationRepository.findAll(pageable);
     }
 
-    @Transactional(readOnly = true)
     public Page<Education> findEducationAllByStatus(Pageable pageable, String status) {
         return educationRepository.findAllByStatus(pageable, status);
+    }
+
+    public Page<Education> findEducationAllByCategory(Pageable pageable, EducationCategory category, String content) {
+        return educationRepository.findByCategory(pageable, category.getExplain(), content);
     }
 
 }

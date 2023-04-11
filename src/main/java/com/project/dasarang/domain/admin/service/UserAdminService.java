@@ -6,5 +6,6 @@ import com.project.dasarang.domain.user.presentation.dto.response.UserListRespon
 public interface UserAdminService {
 
     UserListResponse getUserList(int page, int size, UserType type);
+    void approveOwner(Long id);
 
 }

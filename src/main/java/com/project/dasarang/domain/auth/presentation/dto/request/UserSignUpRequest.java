@@ -1,6 +1,7 @@
 package com.project.dasarang.domain.auth.presentation.dto.request;
 
 import com.project.dasarang.domain.user.domain.User;
+import com.project.dasarang.domain.user.domain.enums.UserStatus;
 import com.project.dasarang.domain.user.domain.enums.UserType;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -21,7 +22,7 @@ public class UserSignUpRequest {
                 .userId(this.userId).authority(UserType.ROLE_USER)
                 .password(encodedPassword).address(this.address)
                 .birth(this.birth).number(this.number)
-                .ownerNumber(null).email(null)
+                .ownerNumber(null).email(null).status(UserStatus.ACTIVE)
                 .build();
     }
 

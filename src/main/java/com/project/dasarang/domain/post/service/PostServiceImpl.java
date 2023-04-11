@@ -1,5 +1,6 @@
 package com.project.dasarang.domain.post.service;
 
+import com.project.dasarang.domain.education.facade.EducationFacade;
 import com.project.dasarang.domain.post.domain.Post;
 import com.project.dasarang.domain.post.domain.repository.PostRepository;
 import com.project.dasarang.domain.post.exception.PostCreateWrongException;
@@ -39,6 +40,7 @@ public class PostServiceImpl implements PostService {
     private final PostFacade postFacade;
     private final UserFacade userFacade;
     private final UploadFacade uploadFacade;
+    private final EducationFacade educationFacade;
     private final PostRepository postRepository;
     private final ImageRepository imageRepository;
 
@@ -74,20 +76,52 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public PostResponse getPostById(Long postId) {
+        Post post = postFacade.findByPostId(postId);
+        List<Image> images = uploadFacade.findAllByPost(post);
+
+        return ResponseUtil.getPostResponse(post, images,
+                educationFacade.findEducationByAcaAsnum(post.getAuthor().getOwnerNumber()).getAcademyName());
+    }
+
+    @Override
     public PostListResponse getAllPost(int page, int size) {
-        Pageable pageable = PageRequest.of(page - 1, size, Sort.Direction.DESC, "id");
+        Pageable pageable = PageRequest.of(page - 1, size, Sort.Direction.DESC, "modifiedDateTime");
 
         Page<Post> posts = postFacade.findAll(pageable);
         List<PostResponse> list = posts.stream()
                 .map(post -> {
                     List<Image> images = uploadFacade.findAllByPost(post);
-                    return ResponseUtil.getPostResponse(post, images);
+                    return ResponseUtil.getPostResponse(post, images,
+                            educationFacade.findEducationByAcaAsnum(post.getAuthor().getOwnerNumber()).getAcademyName());
                 })
                 .collect(Collectors.toList());
 
         return PostListResponse.builder()
                 .currentPage(posts.getNumber() + 1)
-                .hasMorePage(posts.getTotalPages() > posts.getNumber())
+                .hasMorePage(posts.getTotalPages() > posts.getNumber() + 1)
+                .list(list)
+                .build();
+    }
+
+    @Override
+    public PostListResponse getAllPostByAcademy(int page, int size, String acaAsnum) {
+        Pageable pageable = PageRequest.of(page - 1, size, Sort.Direction.DESC, "modifiedDateTime");
+        User author = userFacade.findUserByAcaAsnum(acaAsnum);
+
+        Page<Post> posts = postFacade.findAllByAuthor(pageable, author);
+
+        List<PostResponse> list = posts.stream()
+                .map(post -> {
+                    List<Image> images = uploadFacade.findAllByPost(post);
+                    return ResponseUtil.getPostResponse(post, images,
+                            educationFacade.findEducationByAcaAsnum(post.getAuthor().getOwnerNumber()).getAcademyName());
+                })
+                .collect(Collectors.toList());
+
+        return PostListResponse.builder()
+                .currentPage(posts.getNumber() + 1)
+                .hasMorePage(posts.getTotalPages() > posts.getNumber() + 1)
                 .list(list)
                 .build();
     }

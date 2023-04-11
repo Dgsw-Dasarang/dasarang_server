@@ -41,13 +41,9 @@ public class JwtProvider {
     }
 
     @Transactional
-    public String generateAccessTokenByRefreshToken(String token) {
+    public void checkRefreshToken(String token) {
         refreshTokenRepository.findById(token)
                 .orElseThrow(() -> ExpiredTokenException.EXCEPTION);
-
-        Claims claims = getTokenBody(token);
-
-        return generateAccessToken(claims.getSubject(), UserType.valueOf(claims.get("type").toString()));
     }
 
     @Transactional

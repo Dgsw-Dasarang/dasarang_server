@@ -20,6 +20,14 @@ public class EducationController {
     private final EducationService educationService;
     private final EducationApiService educationApiService;
 
+    @Operation(summary = "학원지정번호로 학원데이터 조회하기")
+    @GetMapping("/num/{academy-number}")
+    public EducationResponse getEducationByAcaAsnum(
+            @PathVariable("academy-number") String acaAsnum
+    ) {
+        return educationService.getEducationByAcaAsnum(acaAsnum);
+    }
+
     @Operation(summary = "학원명으로 학원데이터 조회하기")
     @GetMapping("/{academy-name}")
     public EducationResponse getEducationByAcademyName(

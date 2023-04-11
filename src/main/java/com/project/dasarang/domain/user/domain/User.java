@@ -18,7 +18,6 @@ import java.util.List;
 @Entity
 @Table(name = "tb_user")
 @Getter @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@DynamicInsert
 public class User extends BaseTime {
 
     @Id
@@ -44,6 +43,9 @@ public class User extends BaseTime {
 
     @Enumerated(EnumType.STRING)
     private UserStatus status;
+    public void setStatus(UserStatus status) {
+        this.status = status;
+    }
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Image> imageList;
@@ -60,11 +62,6 @@ public class User extends BaseTime {
         getPostList().add(post);
     }
 
-    @PrePersist
-    public void prePersist() {
-        this.status = this.status == null ? UserStatus.ACTIVE : this.status;
-    }
-
     public void updateUser(String userId, String address, String number, String birth) {
         this.userId = userId;
         this.address = address;
@@ -77,7 +74,8 @@ public class User extends BaseTime {
     }
 
     @Builder
-    public User(String ownerNumber, String email, String userId, String password, String address, String number, String birth, UserType authority) {
+    public User(String ownerNumber, String email, String userId, String password,
+                String address, String number, String birth, UserType authority, UserStatus status) {
         this.ownerNumber = ownerNumber;
         this.email = email;
         this.userId = userId;
@@ -87,5 +85,6 @@ public class User extends BaseTime {
         this.birth = birth;
         this.authority = authority;
         this.postList = new ArrayList<>();
+        this.status = status;
     }
 }

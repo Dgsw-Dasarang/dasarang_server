@@ -1,5 +1,6 @@
 package com.project.dasarang.domain.education.service;
 
+import com.project.dasarang.domain.education.domain.enums.EducationCategory;
 import com.project.dasarang.domain.education.facade.EducationFacade;
 import com.project.dasarang.domain.education.presentation.dto.response.EducationListResponse;
 import com.project.dasarang.domain.education.presentation.dto.response.EducationResponse;
@@ -22,6 +23,14 @@ public class EducationServiceImpl implements EducationService{
     private final EducationFacade educationFacade;
 
     @Override
+    public EducationResponse getEducationByAcaAsnum(String acaAsnum) {
+        Education education = educationFacade.findEducationByAcaAsnum(acaAsnum);
+        List<Tuition> tuitions = educationFacade.findTuitionAllByEducation(education);
+
+        return ResponseUtil.getEducationResponse(education, tuitions);
+    }
+
+    @Override
     public EducationResponse getEducationByAcaName(String academyName) {
         Education education = educationFacade.findEducationByAcademyName(academyName);
         List<Tuition> tuitions = educationFacade.findTuitionAllByEducation(education);
@@ -33,6 +42,23 @@ public class EducationServiceImpl implements EducationService{
     public EducationListResponse getEducationAll(int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
         Page<Education> educations = educationFacade.findEducationAll(pageable);
+
+        List<EducationResponse> responses = educations.stream().map(education -> {
+            List<Tuition> tuitions = educationFacade.findTuitionAllByEducation(education);
+            return ResponseUtil.getEducationResponse(education, tuitions);
+        }).collect(Collectors.toList());
+
+        return EducationListResponse.builder()
+                .currentPage(educations.getNumber() + 1)
+                .hasMorePage(educations.getTotalPages() > educations.getNumber())
+                .list(responses)
+                .build();
+    }
+
+    @Override
+    public EducationListResponse getEducationByCategory(EducationCategory category, String content, int page, int size) {
+        Pageable pageable = PageRequest.of(page - 1, size);
+        Page<Education> educations = educationFacade.findEducationAllByCategory(pageable, category, content);
 
         List<EducationResponse> responses = educations.stream().map(education -> {
             List<Tuition> tuitions = educationFacade.findTuitionAllByEducation(education);

@@ -1,7 +1,6 @@
 package com.project.dasarang.domain.post.domain;
 
 import com.project.dasarang.domain.upload.domain.Image;
-import com.project.dasarang.domain.post.domain.enums.Category;
 import com.project.dasarang.domain.user.domain.User;
 import com.project.dasarang.global.entity.BaseTime;
 import lombok.AccessLevel;
@@ -26,8 +25,6 @@ public class Post extends BaseTime {
 
     private String title;
     private String content;
-    @Enumerated(EnumType.STRING)
-    private Category category;
 
     @ManyToOne
     @JoinColumn(name = "fk_user_id")
@@ -45,10 +42,9 @@ public class Post extends BaseTime {
     }
 
     @Builder
-    public Post(String title, String content, Category category) {
+    public Post(String title, String content) {
         this.title = title;
         this.content = content;
-        this.category = category;
         this.imageList = new ArrayList<>();
     }
 }

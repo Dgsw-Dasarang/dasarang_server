@@ -9,6 +9,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class RowDto implements Serializable {
 
+    private String ACA_ASNUM;
     private String ADMST_ZONE_NM;
     private String ACA_NM;
     private String ESTBL_YMD;
@@ -20,6 +21,7 @@ public class RowDto implements Serializable {
 
     public Education toEntity() {
         return Education.builder()
+                .acaAsnum(this.ACA_ASNUM)
                 .admstZoneName(this.ADMST_ZONE_NM)
                 .academyName(this.ACA_NM)
                 .createdAt(this.ESTBL_YMD)

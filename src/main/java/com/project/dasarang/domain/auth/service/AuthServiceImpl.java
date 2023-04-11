@@ -2,7 +2,6 @@ package com.project.dasarang.domain.auth.service;
 
 import com.project.dasarang.domain.auth.domain.repository.RefreshTokenRepository;
 import com.project.dasarang.domain.user.domain.User;
-import com.project.dasarang.domain.user.domain.enums.UserType;
 import com.project.dasarang.domain.user.domain.repository.UserRepository;
 import com.project.dasarang.domain.user.exception.PasswordWrongException;
 import com.project.dasarang.domain.user.facade.UserFacade;
@@ -11,13 +10,13 @@ import com.project.dasarang.domain.auth.presentation.dto.request.SignInRequest;
 import com.project.dasarang.domain.auth.presentation.dto.request.UserSignUpRequest;
 import com.project.dasarang.domain.auth.presentation.dto.response.TokenResponse;
 import com.project.dasarang.global.security.jwt.JwtProvider;
-import com.project.dasarang.global.security.jwt.exception.ExpiredTokenException;
-import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
@@ -55,13 +54,15 @@ public class AuthServiceImpl implements AuthService {
         return TokenResponse.builder()
                 .accessToken(jwtProvider.generateAccessToken(user.getUserId(), user.getAuthority()))
                 .refreshToken(jwtProvider.generateRefreshToken(user.getUserId(), user.getAuthority()))
-                .name(user.getUserId()).type(user.getAuthority())
+                .name(user.getUserId()).type(user.getAuthority()).status(user.getStatus())
                 .build();
     }
 
     @Override
     @Transactional
-    public String refreshAccessToken(String token) {
-        return jwtProvider.generateAccessTokenByRefreshToken(token);
+    public String refreshAccessToken() {
+        User user = userFacade.getCurrentUser();
+        
+        return jwtProvider.generateAccessToken(user.getUserId(), user.getAuthority());
     }
 }

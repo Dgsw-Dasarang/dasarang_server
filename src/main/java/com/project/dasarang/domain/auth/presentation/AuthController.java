@@ -47,10 +47,8 @@ public class AuthController {
 
     @Operation(summary = "토큰 재발급")
     @GetMapping("/refresh")
-    public String refreshAccessToken(
-            @RequestHeader("Authorization") String token
-    ) {
-        return userService.refreshAccessToken(token);
+    public String refreshAccessToken() {
+        return userService.refreshAccessToken();
     }
 
 }

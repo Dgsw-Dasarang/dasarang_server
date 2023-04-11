@@ -7,6 +7,7 @@ import com.project.dasarang.global.infra.education.domain.Tuition;
 import com.project.dasarang.global.infra.education.domain.repository.EducationRepository;
 import com.project.dasarang.global.infra.education.dto.RowDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,6 +23,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class EducationApiService {
@@ -43,13 +45,14 @@ public class EducationApiService {
 
         for(RowDto item : dtoList) {
             boolean checkTuition = item.getPSNBY_THCC_CNTNT().equals("null");
+            log.info(item.getACA_ASNUM());
             if (educationRepository.existsByAcademyName(item.getACA_NM())) {
                 Education education = educationRepository.findByAcademyName(item.getACA_NM()).get();
                 if(!checkTuition) education.addTuition(getTuitionList(item.getPSNBY_THCC_CNTNT()));
                 education.updateEducation(item.getADMST_ZONE_NM(), item.getACA_NM(),
                         item.getESTBL_YMD(), item.getREG_STTUS_NM(),
                         item.getTOFOR_SMTOT(), item.getLE_CRSE_NM(),
-                        item.getFA_RDNMA());
+                        item.getFA_RDNMA(), item.getACA_ASNUM());
                 educationRepository.save(education);
             } else {
                 Education education = item.toEntity();
@@ -57,6 +60,8 @@ public class EducationApiService {
                 educationRepository.save(education);
             }
         }
+
+        log.info("Update Finish");
     }
 
     public Mono<String> getResponse(String code) {
@@ -96,6 +101,7 @@ public class EducationApiService {
                 .LE_CRSE_NM(data.get("LE_CRSE_NM").toString())
                 .PSNBY_THCC_CNTNT(data.get("PSNBY_THCC_CNTNT").toString())
                 .FA_RDNMA(data.get("FA_RDNMA").toString())
+                .ACA_ASNUM(data.get("ACA_ASNUM").toString())
                 .build();
     }
 

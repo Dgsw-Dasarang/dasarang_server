@@ -18,6 +18,9 @@ public class Education {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long educationId;
 
+    // 학원 지정번호
+    private String acaAsnum;
+
     // 행정 교육명
     private String admstZoneName;
 
@@ -50,7 +53,8 @@ public class Education {
     // 도로명 주소
     private String roadAddress;
 
-    public void updateEducation(String admstZoneName, String academyName, String createdAt, String status, int totalSeats, String courseName, String roadAddress) {
+    public void updateEducation(String admstZoneName, String academyName, String createdAt, String status, int totalSeats,
+                                String courseName, String roadAddress, String acaAsnum) {
         this.admstZoneName = admstZoneName;
         this.academyName = academyName;
         this.createdAt = createdAt;
@@ -58,10 +62,13 @@ public class Education {
         this.totalSeats = totalSeats;
         this.courseName = courseName;
         this.roadAddress = roadAddress;
+        this.acaAsnum = acaAsnum;
     }
 
     @Builder
-    public Education(String admstZoneName, String academyName, String createdAt, String status, int totalSeats, String courseName, String roadAddress) {
+    public Education(String acaAsnum, String admstZoneName, String academyName, String createdAt, String status,
+                     int totalSeats, String courseName, String roadAddress) {
+        this.acaAsnum = acaAsnum;
         this.admstZoneName = admstZoneName;
         this.academyName = academyName;
         this.createdAt = createdAt;

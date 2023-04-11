@@ -54,4 +54,10 @@ public class UserFacade {
         return userRepository.findAllByAuthority(pageable, type);
     }
 
+    @Transactional(readOnly = true)
+    public User findUserByAcaAsnum(String acaAsnum) {
+        return userRepository.findByOwnerNumber(acaAsnum)
+                .orElseThrow(() -> UserNotFoundException.EXCEPTION);
+    }
+
 }
