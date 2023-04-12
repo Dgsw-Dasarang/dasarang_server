@@ -1,5 +1,6 @@
 package com.project.dasarang.domain.education.presentation;
 
+import com.project.dasarang.global.infra.education.domain.enums.EducationCategory;
 import com.project.dasarang.domain.education.presentation.dto.response.EducationListResponse;
 import com.project.dasarang.domain.education.presentation.dto.response.EducationResponse;
 import com.project.dasarang.domain.education.service.EducationService;
@@ -43,6 +44,17 @@ public class EducationController {
             @RequestParam("size") int size
     ) {
         return educationService.getEducationAll(page, size);
+    }
+
+    @Operation(summary = "카테고리로 학원데이터 검색하기 (page랑 size랑 데이터 필요)")
+    @GetMapping("/list/category")
+    public EducationListResponse getEducationByCategory(
+            @RequestParam("page") int page,
+            @RequestParam("size") int size,
+            @RequestParam("category") EducationCategory category,
+            @RequestParam("content") String content
+    ) {
+        return educationService.getEducationByCategory(category, content, page, size);
     }
 
     @Operation(summary = "학원 상태로 전체 학원데이터 조회하기 (page랑 size, 학원 상태 필요)")

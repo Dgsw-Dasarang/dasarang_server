@@ -4,6 +4,8 @@ import com.project.dasarang.domain.post.domain.Post;
 import com.project.dasarang.domain.upload.domain.Image;
 import com.project.dasarang.domain.user.domain.enums.UserStatus;
 import com.project.dasarang.domain.user.domain.enums.UserType;
+import com.project.dasarang.domain.user.presentation.dto.request.UpdateOwnerInfoRequest;
+import com.project.dasarang.domain.user.presentation.dto.request.UpdateUserInfoRequest;
 import com.project.dasarang.global.entity.BaseTime;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -62,11 +64,19 @@ public class User extends BaseTime {
         getPostList().add(post);
     }
 
-    public void updateUser(String userId, String address, String number, String birth) {
-        this.userId = userId;
-        this.address = address;
-        this.number = number;
-        this.birth = birth;
+    public void updateUser(UpdateUserInfoRequest data) {
+        this.userId = data.getUserId();
+        this.address = data.getAddress();
+        this.number = data.getNumber();
+        this.birth = data.getBirth();
+    }
+
+    public void updateOwner(UpdateOwnerInfoRequest data) {
+        this.userId = data.getUserId();
+        this.address = data.getAddress();
+        this.number = data.getNumber();
+        this.birth = data.getBirth();
+        this.email = data.getEmail();
     }
 
     public void deactivateUser() {

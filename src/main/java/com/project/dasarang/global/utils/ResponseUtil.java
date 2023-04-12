@@ -1,5 +1,7 @@
 package com.project.dasarang.global.utils;
 
+import com.project.dasarang.domain.news.domain.News;
+import com.project.dasarang.domain.news.presentation.dto.response.NewsResponse;
 import com.project.dasarang.domain.upload.domain.Image;
 import com.project.dasarang.domain.post.domain.Post;
 import com.project.dasarang.domain.post.presentation.dto.response.ImageResponse;
@@ -59,6 +61,16 @@ public class ResponseUtil {
         return ImageResponse.builder()
                 .url(image.getUrl())
                 .type(image.getType())
+                .build();
+    }
+
+    public static NewsResponse getNewsResponse(News news, List<Image> images) {
+        return NewsResponse.builder()
+                .newsId(news.getNewsId())
+                .title(news.getTitle())
+                .content(news.getContent())
+                .category(news.getCategory())
+                .images(images != null ? images.stream().map(ResponseUtil::getImageResponse).collect(Collectors.toList()) : null)
                 .build();
     }
 

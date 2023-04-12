@@ -1,6 +1,6 @@
 package com.project.dasarang.domain.education.service;
 
-import com.project.dasarang.domain.education.domain.enums.EducationCategory;
+import com.project.dasarang.global.infra.education.domain.enums.EducationCategory;
 import com.project.dasarang.domain.education.presentation.dto.response.EducationListResponse;
 import com.project.dasarang.domain.education.presentation.dto.response.EducationResponse;
 

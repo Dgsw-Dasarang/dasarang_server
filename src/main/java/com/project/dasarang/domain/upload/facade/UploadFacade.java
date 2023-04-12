@@ -1,5 +1,6 @@
 package com.project.dasarang.domain.upload.facade;
 
+import com.project.dasarang.domain.news.domain.News;
 import com.project.dasarang.domain.post.domain.Post;
 import com.project.dasarang.domain.upload.domain.Image;
 import com.project.dasarang.domain.upload.domain.enums.ImageType;
@@ -26,6 +27,10 @@ public class UploadFacade {
 
     public List<Image> findAllByPost(Post post) {
         return imageRepository.findAllByPost(post);
+    }
+
+    public List<Image> findallByNews(News news) {
+        return imageRepository.findAllByNews(news);
     }
 
     public void existsByPostAndType(Post post, ImageType type) {

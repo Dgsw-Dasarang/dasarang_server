@@ -1,5 +1,6 @@
 package com.project.dasarang.domain.upload.domain;
 
+import com.project.dasarang.domain.news.domain.News;
 import com.project.dasarang.domain.post.domain.Post;
 import com.project.dasarang.domain.upload.domain.enums.ImageType;
 import com.project.dasarang.domain.user.domain.User;
@@ -39,6 +40,13 @@ public class Image extends BaseTime {
     private Post post;
     public void setPost(Post post) {
         this.post = post;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "fk_news_id")
+    private News news;
+    public void setNews(News news) {
+        this.news = news;
     }
 
     @Builder

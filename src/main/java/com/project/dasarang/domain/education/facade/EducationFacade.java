@@ -1,6 +1,6 @@
 package com.project.dasarang.domain.education.facade;
 
-import com.project.dasarang.domain.education.domain.enums.EducationCategory;
+import com.project.dasarang.global.infra.education.domain.enums.EducationCategory;
 import com.project.dasarang.domain.education.exception.EducationNotFoundException;
 import com.project.dasarang.global.infra.education.domain.Education;
 import com.project.dasarang.global.infra.education.domain.Tuition;
@@ -44,8 +44,16 @@ public class EducationFacade {
         return educationRepository.findAllByStatus(pageable, status);
     }
 
-    public Page<Education> findEducationAllByCategory(Pageable pageable, EducationCategory category, String content) {
-        return educationRepository.findByCategory(pageable, category.getExplain(), content);
+    public Page<Education> findEducationAllByAcaAsnum(Pageable pageable, String content) {
+        return educationRepository.findByAcaAsnum(content, pageable);
+    }
+
+    public Page<Education> findEducationAllByAcademyName(Pageable pageable, String content) {
+        return educationRepository.findByAcademyName(content, pageable);
+    }
+
+    public Page<Education> findEducationAllByAdmstZoneName(Pageable pageable, String content) {
+        return educationRepository.findByAdmstZoneName(content, pageable);
     }
 
 }

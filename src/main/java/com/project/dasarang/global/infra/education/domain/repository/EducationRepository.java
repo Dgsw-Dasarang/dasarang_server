@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -20,7 +21,13 @@ public interface EducationRepository extends JpaRepository<Education, Long> {
 
     Page<Education> findAllByStatus(Pageable pageable, String status);
 
-    @Query("SELECT e FROM Education e WHERE :category LIKE CONCAT('%', :content, '%')")
-    Page<Education> findByCategory(Pageable pageable, String category, String content);
+    @Query(value = "SELECT e FROM Education e WHERE e.acaAsnum  LIKE CONCAT('%', :content, '%')")
+    Page<Education> findByAcaAsnum(@Param("content") String content, Pageable pageable);
+
+    @Query(value = "SELECT e FROM Education e WHERE e.academyName  LIKE CONCAT('%', :content, '%')")
+    Page<Education> findByAcademyName(@Param("content") String content, Pageable pageable);
+
+    @Query(value = "SELECT e FROM Education e WHERE e.admstZoneName  LIKE CONCAT('%', :content, '%')")
+    Page<Education> findByAdmstZoneName(@Param("content") String content, Pageable pageable);
 
 }

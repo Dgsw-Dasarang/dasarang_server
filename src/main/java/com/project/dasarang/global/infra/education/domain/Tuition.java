@@ -27,6 +27,9 @@ public class Tuition {
 
     private String title;
     private int price;
+    public void updatePrice(int price) {
+        this.price = price;
+    }
 
     @Builder
     public Tuition(String title, int price) {

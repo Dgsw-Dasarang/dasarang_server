@@ -3,7 +3,7 @@ package com.project.dasarang.domain.post.service;
 import com.project.dasarang.domain.education.facade.EducationFacade;
 import com.project.dasarang.domain.post.domain.Post;
 import com.project.dasarang.domain.post.domain.repository.PostRepository;
-import com.project.dasarang.domain.post.exception.PostCreateWrongException;
+import com.project.dasarang.domain.user.exception.OwnerForbiddenException;
 import com.project.dasarang.domain.post.facade.PostFacade;
 import com.project.dasarang.domain.post.presentation.dto.request.CreatePostRequest;
 import com.project.dasarang.domain.post.presentation.dto.response.PostListResponse;
@@ -18,7 +18,6 @@ import com.project.dasarang.domain.user.domain.User;
 import com.project.dasarang.domain.user.domain.enums.UserType;
 import com.project.dasarang.domain.user.facade.UserFacade;
 import com.project.dasarang.global.utils.ResponseUtil;
-import io.netty.util.internal.ObjectUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -48,9 +47,7 @@ public class PostServiceImpl implements PostService {
     @Transactional
     public void createPost(CreatePostRequest request) {
         User user = userFacade.getCurrentUser();
-
-        if(!user.getAuthority().equals(UserType.ROLE_OWNER))
-            throw PostCreateWrongException.EXCEPTION;
+        userFacade.checkOwnerPermissions();
 
         Post post = request.toEntity();
 

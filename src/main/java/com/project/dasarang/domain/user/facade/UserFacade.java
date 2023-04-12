@@ -4,6 +4,7 @@ import com.project.dasarang.domain.admin.exception.AdminForbiddenException;
 import com.project.dasarang.domain.user.domain.User;
 import com.project.dasarang.domain.user.domain.enums.UserType;
 import com.project.dasarang.domain.user.domain.repository.UserRepository;
+import com.project.dasarang.domain.user.exception.OwnerForbiddenException;
 import com.project.dasarang.domain.user.exception.UserAlreadyExistsException;
 import com.project.dasarang.domain.user.exception.UserNotFoundException;
 import com.project.dasarang.global.security.auth.AuthDetails;
@@ -25,10 +26,16 @@ public class UserFacade {
         return auth.getUser();
     }
 
-    public void checkPermissions() {
+    public void checkAdminPermissions() {
         User user = getCurrentUser();
         if(!user.getAuthority().equals(UserType.ROLE_ADMIN))
             throw AdminForbiddenException.EXCEPTION;
+    }
+
+    public void checkOwnerPermissions() {
+        User user = getCurrentUser();
+        if(!user.getAuthority().equals(UserType.ROLE_OWNER))
+            throw OwnerForbiddenException.EXCEPTION;
     }
 
     @Transactional(readOnly = true)

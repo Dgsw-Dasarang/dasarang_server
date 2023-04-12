@@ -29,7 +29,7 @@ public class UserAdminServiceImpl implements UserAdminService {
     @Override
     public UserListResponse getUserList(int page, int size, UserType type) {
         Pageable pageable = PageRequest.of(page - 1, size, Sort.Direction.DESC, "id");
-        userFacade.checkPermissions();
+        userFacade.checkAdminPermissions();
 
         Page<User> users = userFacade.findAllUser(pageable, type);
         List<UserResponse> list = users.stream()
@@ -45,7 +45,7 @@ public class UserAdminServiceImpl implements UserAdminService {
 
     @Override
     public void approveOwner(Long id) {
-        userFacade.checkPermissions();
+        userFacade.checkAdminPermissions();
         User user = userFacade.findUserById(id);
 
         if(user.getStatus().equals(UserStatus.ACTIVE))

@@ -53,6 +53,8 @@ public class SecurityConfiguration {
 
                 // 유저 서버
                 .antMatchers(HttpMethod.GET, "/user/**").authenticated() // 유저 정보
+                .antMatchers(HttpMethod.PATCH, "/user/**").hasRole(UserType.ROLE_USER.getRole())
+                .antMatchers(HttpMethod.PATCH, "/owner/**").hasRole(UserType.ROLE_OWNER.getRole())
 
                 // 교육 서버
                 .antMatchers(HttpMethod.GET, "/education/num/**").hasRole(UserType.ROLE_OWNER.getRole())
@@ -64,11 +66,15 @@ public class SecurityConfiguration {
                 .antMatchers(HttpMethod.GET, "/post/**").permitAll()
 
                 // 이미지 서버
-                .antMatchers(HttpMethod.POST, "/upload/**").hasRole(UserType.ROLE_OWNER.getRole())
+                .antMatchers(HttpMethod.POST, "/upload/**").authenticated()
                 .antMatchers(HttpMethod.GET, "/upload/**").permitAll()
 
                 // 관리자 서버
                 .antMatchers("/admin/**").hasRole(UserType.ROLE_ADMIN.getRole())
+
+                // 소식 서버
+                .antMatchers(HttpMethod.POST, "/news/**").hasRole(UserType.ROLE_ADMIN.getRole())
+                .antMatchers(HttpMethod.GET, "/news/**").permitAll()
 
                 // 정적 페이지
                 .antMatchers("/*.html").permitAll()

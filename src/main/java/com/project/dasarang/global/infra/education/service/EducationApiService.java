@@ -5,6 +5,7 @@ import com.project.dasarang.global.config.WebClientConfiguration;
 import com.project.dasarang.global.infra.education.domain.Education;
 import com.project.dasarang.global.infra.education.domain.Tuition;
 import com.project.dasarang.global.infra.education.domain.repository.EducationRepository;
+import com.project.dasarang.global.infra.education.domain.repository.TuitionRepository;
 import com.project.dasarang.global.infra.education.dto.RowDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,7 @@ import java.util.stream.Collectors;
 public class EducationApiService {
 
     private final EducationRepository educationRepository;
+    private final TuitionRepository tuitionRepository;
     private final WebClientConfiguration webClient;
     private final AppProperties appProperties;
 
@@ -82,13 +84,16 @@ public class EducationApiService {
 
     public List<Tuition> getTuitionList(String item) {
         String[] tuitions = item.split("/ ");
-        return Arrays.stream(tuitions)
-                .map(tuition ->
-                        Tuition.builder()
-                            .title(tuition.split(":")[0])
-                            .price(Integer.parseInt(tuition.split(":")[1]))
-                            .build()
-                ).collect(Collectors.toList());
+        return Arrays.stream(tuitions).map(tuition -> {
+            String title = tuition.split(":")[0];
+            int price = Integer.parseInt(tuition.split(":")[1]);
+            if(tuitionRepository.existsByTitle(title))
+                tuitionRepository.deleteAllByTitle(title);
+            return Tuition.builder()
+                    .title(title)
+                    .price(price)
+                    .build();
+        }).collect(Collectors.toList());
     }
 
     public RowDto jsonToDto(JSONObject data) throws JSONException {

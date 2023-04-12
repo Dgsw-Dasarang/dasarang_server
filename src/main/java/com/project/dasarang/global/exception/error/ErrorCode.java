@@ -23,6 +23,7 @@ public enum ErrorCode implements ErrorProperty{
     PASSWORD_WRONG(HttpStatus.BAD_REQUEST, "비밀번호가 맞지 않습니다."),
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "유저를 찾을 수 없습니다."),
     ADMIN_FORBIDDEN(HttpStatus.FORBIDDEN, "관리자 권한이 존재하지 않습니다."),
+    OWNER_FORBIDDEN(HttpStatus.FORBIDDEN, "업주 권한이 존재합지 않습니다."),
     USER_ALREADY_ACTIVE(HttpStatus.BAD_REQUEST, "이미 승인된 회원입니다."),
 
     // Education 코드
@@ -31,13 +32,15 @@ public enum ErrorCode implements ErrorProperty{
     // Post 코드
     POST_NOT_FOUND(HttpStatus.NOT_FOUND, "게시글을 찾을 수 없습니다."),
     POST_CONFLICT(HttpStatus.CONFLICT, "게시글이 이미 존재합니다."),
-    POST_CREATE_WRONG(HttpStatus.FORBIDDEN, "게시글을 작성할 수 있는 권한이 없습니다."),
 
     // Image 코드
-    IMAGE_NOT_FOUND(HttpStatus.NOT_FOUND, "이미지를 찾을 수 없습니다"),
+    IMAGE_NOT_FOUND(HttpStatus.NOT_FOUND, "이미지를 찾을 수 없습니다."),
     IMAGE_MAIN_EXISTS(HttpStatus.CONFLICT, "메인 이미지가 이미 존재합니다."),
     IMAGE_WRONG(HttpStatus.FORBIDDEN, "접근권한이 없습니다."),
-    IMAGE_USED(HttpStatus.CONFLICT, "이미지가 이미 사용중입니다.");
+    IMAGE_USED(HttpStatus.CONFLICT, "이미지가 이미 사용중입니다."),
+
+    // News 코드
+    NEWS_NOT_FOUND(HttpStatus.NOT_FOUND, "소식을 찾을 수 없습니다.");
 
     private final HttpStatus status;
     private final String message;
