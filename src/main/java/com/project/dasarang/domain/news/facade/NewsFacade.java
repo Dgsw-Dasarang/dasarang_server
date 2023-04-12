@@ -26,8 +26,12 @@ public class NewsFacade {
         return newsRepository.findAll(pageable);
     }
 
-    public Page<News> findAllByCategory(Pageable pageable, SearchCategory category, String content) {
-        return newsRepository.findbyCategory(pageable, category.getExplain(), content);
+    public Page<News> findAllByTitleOrContent(Pageable pageable, String content) {
+        return newsRepository.findAllByTitleOrContent(pageable, content);
+    }
+
+    public Page<News> findAllByCategory(Pageable pageable, String content) {
+        return newsRepository.findAllByCategory(pageable, content);
     }
 
 }

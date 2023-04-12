@@ -28,7 +28,7 @@ public class NewsController {
         newsService.createNews(request);
     }
 
-    @Operation(summary = "데이터베이스 컬럼별로 소식 조회하기")
+    @Operation(summary = "전체 소식데이터 조회하기 (page랑 size랑 데이터 필요)")
     @GetMapping("/list/column")
     public NewsListResponse getNewsAllByCategory(
             @RequestParam("page") int page,

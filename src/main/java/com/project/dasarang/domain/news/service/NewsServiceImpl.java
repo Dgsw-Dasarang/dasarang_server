@@ -70,7 +70,11 @@ public class NewsServiceImpl implements NewsService {
     public NewsListResponse getNewsAllByCategory(int page, int size, SearchCategory category, String content) {
         Pageable pageable = PageRequest.of(page - 1, size, Sort.Direction.DESC, "modifiedDateTime");
 
-        Page<News> newsList = newsFacade.findAllByCategory(pageable, category, content);
+        Page<News> newsList = null;
+        if(category.equals(SearchCategory.CONTENT))
+             newsList = newsFacade.findAllByTitleOrContent(pageable, content);
+        else if(category.equals(SearchCategory.CATEGORY))
+            newsList = newsFacade.findAllByCategory(pageable, content);
 
         List<NewsResponse> list = newsList.stream()
                 .map(news -> {

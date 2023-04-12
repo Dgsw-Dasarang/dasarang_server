@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum SearchCategory {
 
-    TITLE("title"),
     CONTENT("content"),
     CATEGORY("category");
 

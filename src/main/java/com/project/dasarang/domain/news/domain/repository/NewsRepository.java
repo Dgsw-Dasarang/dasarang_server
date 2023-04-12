@@ -8,7 +8,10 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface NewsRepository extends JpaRepository<News, Long> {
 
-    @Query("SELECT n FROM News n WHERE :category LIKE CONCAT('%', :content, '%')")
-    Page<News> findbyCategory(Pageable pageable, String category, String content);
+    @Query("SELECT n FROM News n WHERE n.title LIKE CONCAT('%', :content, '%') OR n.content LIKE CONCAT('%', :content, '%')")
+    Page<News> findAllByTitleOrContent(Pageable pageable, String content);
+
+    @Query(value = "SELECT * FROM News WHERE category LIKE CONCAT('%', :content, '%')", nativeQuery = true)
+    Page<News> findAllByCategory(Pageable pageable, String content);
 
 }
