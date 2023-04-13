@@ -11,6 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 public class EducationResponse {
 
+    private String academyNumber;
     private String admstZoneName;
     private String academyName;
     private String createdAt;

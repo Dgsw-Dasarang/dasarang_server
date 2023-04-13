@@ -47,14 +47,13 @@ public class EducationApiService {
 
         for(RowDto item : dtoList) {
             boolean checkTuition = item.getPSNBY_THCC_CNTNT().equals("null");
-            log.info(item.getACA_ASNUM());
-            if (educationRepository.existsByAcademyName(item.getACA_NM())) {
-                Education education = educationRepository.findByAcademyName(item.getACA_NM()).get();
+            if (educationRepository.existsByAcaAsnum(item.getACA_ASNUM())) {
+                Education education = educationRepository.findByAcaAsnum(item.getACA_ASNUM()).get();
                 if(!checkTuition) education.addTuition(getTuitionList(item.getPSNBY_THCC_CNTNT()));
                 education.updateEducation(item.getADMST_ZONE_NM(), item.getACA_NM(),
                         item.getESTBL_YMD(), item.getREG_STTUS_NM(),
                         item.getTOFOR_SMTOT(), item.getLE_CRSE_NM(),
-                        item.getFA_RDNMA(), item.getACA_ASNUM());
+                        item.getFA_RDNMA());
                 educationRepository.save(education);
             } else {
                 Education education = item.toEntity();

@@ -2,6 +2,7 @@ package com.project.dasarang.domain.admin.presentation;
 
 import com.project.dasarang.domain.admin.service.UserAdminService;
 import com.project.dasarang.domain.user.domain.enums.UserType;
+import com.project.dasarang.domain.user.presentation.dto.request.UpdateUserInfoRequest;
 import com.project.dasarang.domain.user.presentation.dto.response.UserListResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -40,6 +41,15 @@ public class UserAdminController {
             @PathVariable("id") Long id
     ) {
         userAdminService.approveOwner(id);
+    }
+
+    @Operation(summary = "유저 프로필 수정")
+    @PatchMapping("/user/update/{id}")
+    public void updateUser(
+            @PathVariable("id") Long id,
+            @RequestBody UpdateUserInfoRequest request
+    ) {
+        userAdminService.updateUserInfo(id, request);
     }
 
 }

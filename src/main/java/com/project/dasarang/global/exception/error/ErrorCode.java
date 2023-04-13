@@ -23,7 +23,8 @@ public enum ErrorCode implements ErrorProperty{
     PASSWORD_WRONG(HttpStatus.BAD_REQUEST, "비밀번호가 맞지 않습니다."),
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "유저를 찾을 수 없습니다."),
     ADMIN_FORBIDDEN(HttpStatus.FORBIDDEN, "관리자 권한이 존재하지 않습니다."),
-    OWNER_FORBIDDEN(HttpStatus.FORBIDDEN, "업주 권한이 존재합지 않습니다."),
+    OWNER_FORBIDDEN(HttpStatus.FORBIDDEN, "업주 권한이 존재하지 않습니다."),
+    USER_FORBIDDEN(HttpStatus.FORBIDDEN, "유저 권한이 존재하지 않습니다."),
     USER_ALREADY_ACTIVE(HttpStatus.BAD_REQUEST, "이미 승인된 회원입니다."),
 
     // Education 코드

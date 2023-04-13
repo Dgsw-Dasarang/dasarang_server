@@ -19,6 +19,7 @@ public class ResponseUtil {
 
     public static UserResponse getUserResponse(User user) {
         return UserResponse.builder()
+                .id(user.getId())
                 .userId(user.getUserId())
                 .address(user.getAddress()).number(user.getNumber())
                 .type(user.getAuthority().getRole()).address(user.getAddress())
@@ -29,6 +30,7 @@ public class ResponseUtil {
 
     public static EducationResponse getEducationResponse(Education education, List<Tuition> tuitions) {
         return EducationResponse.builder()
+                .academyNumber(education.getAcaAsnum())
                 .admstZoneName(education.getAdmstZoneName())
                 .academyName(education.getAcademyName())
                 .createdAt(education.getCreatedAt())

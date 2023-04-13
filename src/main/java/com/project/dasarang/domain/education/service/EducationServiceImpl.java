@@ -68,7 +68,6 @@ public class EducationServiceImpl implements EducationService {
         else if (category.equals(EducationCategory.ZONE_NAME))
             educations = educationFacade.findEducationAllByAdmstZoneName(pageable, content);
 
-        log.info(String.valueOf(educations.isEmpty()));
         List<EducationResponse> responses = educations.stream().map(education -> {
             List<Tuition> tuitions = educationFacade.findTuitionAllByEducation(education);
             return ResponseUtil.getEducationResponse(education, tuitions);

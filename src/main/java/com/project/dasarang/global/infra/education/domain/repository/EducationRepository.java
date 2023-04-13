@@ -13,7 +13,7 @@ import java.util.Optional;
 @Repository
 public interface EducationRepository extends JpaRepository<Education, Long> {
 
-    boolean existsByAcademyName(String academyName);
+    boolean existsByAcaAsnum(String acaAsnum);
 
     Optional<Education> findByAcademyName(String academyName);
 

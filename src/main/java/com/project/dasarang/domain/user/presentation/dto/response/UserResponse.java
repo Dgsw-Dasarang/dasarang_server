@@ -8,6 +8,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class UserResponse {
 
+    private Long id;
     private String userId;
     private String address;
     private String number;

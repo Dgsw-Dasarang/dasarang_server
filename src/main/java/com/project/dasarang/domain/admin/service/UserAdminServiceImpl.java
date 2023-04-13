@@ -4,8 +4,12 @@ import com.project.dasarang.domain.user.domain.User;
 import com.project.dasarang.domain.user.domain.enums.UserStatus;
 import com.project.dasarang.domain.user.domain.enums.UserType;
 import com.project.dasarang.domain.user.domain.repository.UserRepository;
+import com.project.dasarang.domain.user.exception.OwnerForbiddenException;
 import com.project.dasarang.domain.user.exception.UserAlreadyActiveException;
+import com.project.dasarang.domain.user.exception.UserForbiddenException;
 import com.project.dasarang.domain.user.facade.UserFacade;
+import com.project.dasarang.domain.user.presentation.dto.request.UpdateOwnerInfoRequest;
+import com.project.dasarang.domain.user.presentation.dto.request.UpdateUserInfoRequest;
 import com.project.dasarang.domain.user.presentation.dto.response.UserListResponse;
 import com.project.dasarang.domain.user.presentation.dto.response.UserResponse;
 import com.project.dasarang.global.utils.ResponseUtil;
@@ -15,6 +19,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -44,6 +49,7 @@ public class UserAdminServiceImpl implements UserAdminService {
     }
 
     @Override
+    @Transactional
     public void approveOwner(Long id) {
         userFacade.checkAdminPermissions();
         User user = userFacade.findUserById(id);
@@ -53,6 +59,54 @@ public class UserAdminServiceImpl implements UserAdminService {
 
         user.setStatus(UserStatus.ACTIVE);
         userRepository.save(user);
+    }
+
+    @Override
+    @Transactional
+    public void updateUserInfo(Long id, UpdateUserInfoRequest request) {
+        userFacade.checkAdminPermissions();
+        User user = userFacade.findUserById(id);
+        if(user.getAuthority().equals(UserType.ROLE_USER))
+            throw UserForbiddenException.EXCEPTION;
+
+        user.updateUser(request);
+
+        userRepository.save(user);
+    }
+
+    @Override
+    @Transactional
+    public void updateOwnerInfo(Long id, UpdateOwnerInfoRequest request) {
+        userFacade.checkAdminPermissions();
+        User user = userFacade.findUserById(id);
+        if(user.getAuthority().equals(UserType.ROLE_USER))
+            throw OwnerForbiddenException.EXCEPTION;
+
+        user.updateOwner(request);
+
+        userRepository.save(user);
+    }
+
+    @Override
+    @Transactional
+    public void deleteUser(Long id) {
+        userFacade.checkAdminPermissions();
+        User user = userFacade.findUserById(id);
+        if(user.getAuthority().equals(UserType.ROLE_USER))
+            throw UserForbiddenException.EXCEPTION;
+
+        userRepository.delete(user);
+    }
+
+    @Override
+    @Transactional
+    public void deleteOwner(Long id) {
+        userFacade.checkAdminPermissions();
+        User user = userFacade.findUserById(id);
+        if(user.getAuthority().equals(UserType.ROLE_USER))
+            throw OwnerForbiddenException.EXCEPTION;
+
+        userRepository.delete(user);
     }
 
 }

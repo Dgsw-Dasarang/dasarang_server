@@ -1,5 +1,6 @@
 package com.project.dasarang.global.infra.education.domain;
 
+import com.project.dasarang.domain.admin.presentation.dto.request.UpdateEducationInfoRequest;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,13 +20,13 @@ public class Education {
     private Long educationId;
 
     // 학원 지정번호
+    @Column(unique = true)
     private String acaAsnum;
 
     // 행정 교육명
     private String admstZoneName;
 
     // 학원명
-    @Column(unique = true)
     private String academyName;
 
     // 개설 일자
@@ -53,8 +54,17 @@ public class Education {
     // 도로명 주소
     private String roadAddress;
 
+    public void updateAdminEducation(UpdateEducationInfoRequest data) {
+        this.admstZoneName = data.getZoneName() == null ? this.admstZoneName : data.getZoneName();
+        this.academyName = data.getAcademyName() == null ? this.academyName : data.getAcademyName();
+        this.status = data.getStatus() == null ? this.status : data.getStatus();
+        this.totalSeats = data.getTotalSeats();
+        this.courseName = data.getCourseName() == null ? this.courseName : data.getCourseName();
+        this.roadAddress = data.getRoadAddress() == null ? this.roadAddress : data.getRoadAddress();
+    }
+
     public void updateEducation(String admstZoneName, String academyName, String createdAt, String status, int totalSeats,
-                                String courseName, String roadAddress, String acaAsnum) {
+                                String courseName, String roadAddress) {
         this.admstZoneName = admstZoneName;
         this.academyName = academyName;
         this.createdAt = createdAt;
@@ -62,7 +72,6 @@ public class Education {
         this.totalSeats = totalSeats;
         this.courseName = courseName;
         this.roadAddress = roadAddress;
-        this.acaAsnum = acaAsnum;
     }
 
     @Builder
