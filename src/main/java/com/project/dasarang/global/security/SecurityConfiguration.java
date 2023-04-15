@@ -63,6 +63,8 @@ public class SecurityConfiguration {
 
                 // 글 서버
                 .antMatchers(HttpMethod.POST, "/post/**").hasRole(UserType.ROLE_OWNER.getRole())
+                .antMatchers(HttpMethod.PATCH, "/post/**").hasRole(UserType.ROLE_OWNER.getRole())
+                .antMatchers(HttpMethod.DELETE, "/post/**").hasRole(UserType.ROLE_OWNER.getRole())
                 .antMatchers(HttpMethod.GET, "/post/**").permitAll()
 
                 // 이미지 서버

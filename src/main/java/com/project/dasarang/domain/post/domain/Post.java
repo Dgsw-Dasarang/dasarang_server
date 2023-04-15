@@ -1,5 +1,6 @@
 package com.project.dasarang.domain.post.domain;
 
+import com.project.dasarang.domain.post.presentation.dto.request.UpdatePostRequest;
 import com.project.dasarang.domain.upload.domain.Image;
 import com.project.dasarang.domain.user.domain.User;
 import com.project.dasarang.global.entity.BaseTime;
@@ -39,6 +40,11 @@ public class Post extends BaseTime {
         image.stream().map(it ->
             getImageList().add(it)
         ).close();
+    }
+
+    public void modifyPost(UpdatePostRequest data) {
+        this.title = data.getTitle();
+        this.content = data.getContent();
     }
 
     @Builder

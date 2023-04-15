@@ -3,6 +3,7 @@ package com.project.dasarang.domain.post.service;
 import com.project.dasarang.domain.education.facade.EducationFacade;
 import com.project.dasarang.domain.post.domain.Post;
 import com.project.dasarang.domain.post.domain.repository.PostRepository;
+import com.project.dasarang.domain.post.presentation.dto.request.UpdatePostRequest;
 import com.project.dasarang.domain.user.exception.OwnerForbiddenException;
 import com.project.dasarang.domain.post.facade.PostFacade;
 import com.project.dasarang.domain.post.presentation.dto.request.CreatePostRequest;
@@ -70,6 +71,31 @@ public class PostServiceImpl implements PostService {
         }
 
         postRepository.save(post);
+    }
+
+    @Override
+    @Transactional
+    public void updatePost(Long postId, UpdatePostRequest request) {
+        User user = userFacade.getCurrentUser();
+        Post post = postFacade.findByPostId(postId);
+
+        if(post.getAuthor().equals(user))
+            throw OwnerForbiddenException.EXCEPTION;
+
+        post.modifyPost(request);
+        postRepository.save(post);
+    }
+
+    @Override
+    @Transactional
+    public void deletePost(Long postId) {
+        User user = userFacade.getCurrentUser();
+        Post post = postFacade.findByPostId(postId);
+
+        if(post.getAuthor().equals(user))
+            throw OwnerForbiddenException.EXCEPTION;
+
+        postRepository.delete(post);
     }
 
     @Override

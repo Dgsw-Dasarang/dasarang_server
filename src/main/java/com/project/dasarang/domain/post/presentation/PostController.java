@@ -1,6 +1,7 @@
 package com.project.dasarang.domain.post.presentation;
 
 import com.project.dasarang.domain.post.presentation.dto.request.CreatePostRequest;
+import com.project.dasarang.domain.post.presentation.dto.request.UpdatePostRequest;
 import com.project.dasarang.domain.post.presentation.dto.response.PostListResponse;
 import com.project.dasarang.domain.post.presentation.dto.response.PostResponse;
 import com.project.dasarang.domain.post.service.PostService;
@@ -25,6 +26,23 @@ public class PostController {
             @RequestBody CreatePostRequest request
     ) {
         postService.createPost(request);
+    }
+
+    @Operation(summary = "게시글 수정")
+    @PatchMapping("/{id}")
+    public void updatePost(
+            @PathVariable("id") Long id,
+            @RequestBody UpdatePostRequest request
+    ) {
+        postService.updatePost(id, request);
+    }
+
+    @Operation(summary = "게시글 삭제")
+    @DeleteMapping("/{id}")
+    public void deletePost(
+            @PathVariable("id") Long id
+    ) {
+        postService.deletePost(id);
     }
 
     @Operation(summary = "게시글 상세 조회하기")
