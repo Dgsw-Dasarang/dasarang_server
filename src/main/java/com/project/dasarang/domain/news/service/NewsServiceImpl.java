@@ -5,6 +5,7 @@ import com.project.dasarang.domain.news.domain.enums.SearchCategory;
 import com.project.dasarang.domain.news.domain.repository.NewsRepository;
 import com.project.dasarang.domain.news.facade.NewsFacade;
 import com.project.dasarang.domain.news.presentation.dto.request.CreateNewsRequest;
+import com.project.dasarang.domain.news.presentation.dto.request.UpdateNewsRequest;
 import com.project.dasarang.domain.news.presentation.dto.response.NewsListResponse;
 import com.project.dasarang.domain.news.presentation.dto.response.NewsResponse;
 import com.project.dasarang.domain.upload.domain.Image;
@@ -64,6 +65,27 @@ public class NewsServiceImpl implements NewsService {
         }
 
         newsRepository.save(news);
+    }
+
+    @Override
+    @Transactional
+    public void updateNews(Long id, UpdateNewsRequest request) {
+        userFacade.checkAdminPermissions();
+
+        News news = newsFacade.findByNewsId(id);
+        news.modifyNews(request);
+
+        newsRepository.save(news);
+    }
+
+    @Override
+    @Transactional
+    public void deleteNews(Long id) {
+        userFacade.checkAdminPermissions();
+
+        News news = newsFacade.findByNewsId(id);
+
+        newsRepository.delete(news);
     }
 
     @Override

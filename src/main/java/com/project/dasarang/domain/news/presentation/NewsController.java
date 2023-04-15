@@ -2,6 +2,7 @@ package com.project.dasarang.domain.news.presentation;
 
 import com.project.dasarang.domain.news.domain.enums.SearchCategory;
 import com.project.dasarang.domain.news.presentation.dto.request.CreateNewsRequest;
+import com.project.dasarang.domain.news.presentation.dto.request.UpdateNewsRequest;
 import com.project.dasarang.domain.news.presentation.dto.response.NewsListResponse;
 import com.project.dasarang.domain.news.presentation.dto.response.NewsResponse;
 import com.project.dasarang.domain.news.service.NewsService;
@@ -26,6 +27,23 @@ public class NewsController {
             @RequestBody CreateNewsRequest request
     ) {
         newsService.createNews(request);
+    }
+
+    @Operation(summary = "소식 수정하기")
+    @PatchMapping("/{id}")
+    public void updateNews(
+            @PathVariable("id") Long id,
+            @RequestBody UpdateNewsRequest request
+    ) {
+        newsService.updateNews(id, request);
+    }
+
+    @Operation(summary = "소식 삭제하기")
+    @DeleteMapping("/{id}")
+    public void deleteNews(
+            @PathVariable("id") Long id
+    ) {
+        newsService.deleteNews(id);
     }
 
     @Operation(summary = "전체 소식데이터 조회하기 (page랑 size랑 데이터 필요)")

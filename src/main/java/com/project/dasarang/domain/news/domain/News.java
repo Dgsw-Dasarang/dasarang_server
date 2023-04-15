@@ -1,6 +1,7 @@
 package com.project.dasarang.domain.news.domain;
 
 import com.project.dasarang.domain.news.domain.enums.NewsCategory;
+import com.project.dasarang.domain.news.presentation.dto.request.UpdateNewsRequest;
 import com.project.dasarang.domain.upload.domain.Image;
 import com.project.dasarang.global.entity.BaseTime;
 import lombok.AccessLevel;
@@ -33,6 +34,12 @@ public class News extends BaseTime {
         image.stream().map(it ->
                 getImageList().add(it)
         ).close();
+    }
+
+    public void modifyNews(UpdateNewsRequest data) {
+        this.title = data.getTitle();
+        this.content = data.getContent();
+        this.category = data.getCategory();
     }
 
     @Builder

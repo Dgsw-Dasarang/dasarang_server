@@ -76,6 +76,8 @@ public class SecurityConfiguration {
 
                 // 소식 서버
                 .antMatchers(HttpMethod.POST, "/news/**").hasRole(UserType.ROLE_ADMIN.getRole())
+                .antMatchers(HttpMethod.PATCH, "/news/**").hasRole(UserType.ROLE_ADMIN.getRole())
+                .antMatchers(HttpMethod.DELETE, "/news/**").hasRole(UserType.ROLE_ADMIN.getRole())
                 .antMatchers(HttpMethod.GET, "/news/**").permitAll()
 
                 // 정적 페이지
