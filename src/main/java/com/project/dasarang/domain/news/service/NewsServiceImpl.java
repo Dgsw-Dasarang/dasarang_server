@@ -43,7 +43,6 @@ public class NewsServiceImpl implements NewsService {
     @Transactional
     public void createNews(CreateNewsRequest request) {
         User user = userFacade.getCurrentUser();
-        userFacade.checkAdminPermissions();
 
         News news = request.toEntity();
 
@@ -70,8 +69,6 @@ public class NewsServiceImpl implements NewsService {
     @Override
     @Transactional
     public void updateNews(Long id, UpdateNewsRequest request) {
-        userFacade.checkAdminPermissions();
-
         News news = newsFacade.findByNewsId(id);
         news.modifyNews(request);
 
@@ -81,8 +78,6 @@ public class NewsServiceImpl implements NewsService {
     @Override
     @Transactional
     public void deleteNews(Long id) {
-        userFacade.checkAdminPermissions();
-
         News news = newsFacade.findByNewsId(id);
 
         newsRepository.delete(news);

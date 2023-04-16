@@ -20,8 +20,6 @@ public class PostAdminServiceImpl implements PostAdminService {
     @Override
     @Transactional
     public void updatePost(Long postId, UpdatePostRequest request) {
-        userFacade.checkAdminPermissions();
-
         Post post = postFacade.findByPostId(postId);
         post.modifyPost(request);
 
@@ -30,8 +28,6 @@ public class PostAdminServiceImpl implements PostAdminService {
 
     @Override
     public void deletePost(Long postId) {
-        userFacade.checkAdminPermissions();
-
         Post post = postFacade.findByPostId(postId);
 
         postRepository.delete(post);

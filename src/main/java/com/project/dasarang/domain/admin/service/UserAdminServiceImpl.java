@@ -34,7 +34,6 @@ public class UserAdminServiceImpl implements UserAdminService {
     @Override
     public UserListResponse getUserList(int page, int size, UserType type) {
         Pageable pageable = PageRequest.of(page - 1, size, Sort.Direction.DESC, "id");
-        userFacade.checkAdminPermissions();
 
         Page<User> users = userFacade.findAllUser(pageable, type);
         List<UserResponse> list = users.stream()
@@ -51,7 +50,6 @@ public class UserAdminServiceImpl implements UserAdminService {
     @Override
     @Transactional
     public void approveOwner(Long id) {
-        userFacade.checkAdminPermissions();
         User user = userFacade.findUserById(id);
 
         if(user.getStatus().equals(UserStatus.ACTIVE))
@@ -64,7 +62,6 @@ public class UserAdminServiceImpl implements UserAdminService {
     @Override
     @Transactional
     public void updateUserInfo(Long id, UpdateUserInfoRequest request) {
-        userFacade.checkAdminPermissions();
         User user = userFacade.findUserById(id);
         if(user.getAuthority().equals(UserType.ROLE_USER))
             throw UserForbiddenException.EXCEPTION;
@@ -77,7 +74,6 @@ public class UserAdminServiceImpl implements UserAdminService {
     @Override
     @Transactional
     public void updateOwnerInfo(Long id, UpdateOwnerInfoRequest request) {
-        userFacade.checkAdminPermissions();
         User user = userFacade.findUserById(id);
         if(user.getAuthority().equals(UserType.ROLE_USER))
             throw OwnerForbiddenException.EXCEPTION;
@@ -90,7 +86,6 @@ public class UserAdminServiceImpl implements UserAdminService {
     @Override
     @Transactional
     public void deleteUser(Long id) {
-        userFacade.checkAdminPermissions();
         User user = userFacade.findUserById(id);
         if(user.getAuthority().equals(UserType.ROLE_USER))
             throw UserForbiddenException.EXCEPTION;
@@ -101,7 +96,6 @@ public class UserAdminServiceImpl implements UserAdminService {
     @Override
     @Transactional
     public void deleteOwner(Long id) {
-        userFacade.checkAdminPermissions();
         User user = userFacade.findUserById(id);
         if(user.getAuthority().equals(UserType.ROLE_USER))
             throw OwnerForbiddenException.EXCEPTION;

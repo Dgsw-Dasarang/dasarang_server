@@ -22,7 +22,6 @@ public class EducationAdminServiceImpl implements EducationAdminService {
     @Override
     @Transactional
     public void updateEducationInfo(String number, UpdateEducationInfoRequest request) {
-        userFacade.checkAdminPermissions();
         Education education = educationFacade.findEducationByAcaAsnum(number);
         education.updateAdminEducation(request);
 

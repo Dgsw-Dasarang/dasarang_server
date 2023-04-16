@@ -48,7 +48,6 @@ public class PostServiceImpl implements PostService {
     @Transactional
     public void createPost(CreatePostRequest request) {
         User user = userFacade.getCurrentUser();
-        userFacade.checkOwnerPermissions();
 
         Post post = request.toEntity();
 
