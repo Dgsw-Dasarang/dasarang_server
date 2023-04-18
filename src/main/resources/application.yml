@@ -1,64 +1,7 @@
 spring:
-  datasource:
-    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
-  jpa:
-    database: mysql
-    database-platform: org.hibernate.dialect.MySQL8Dialect
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
-        format_sql: true
-    generate-ddl: true
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-
-  mvc:
-    pathmatch:
-      matching-strategy: ant_path_matcher
-
-  cache:
-    type: redis
-
-  redis:
-    host: ${REDIS_HOST}
-    port: ${REDIS_PORT}
-
-jwt:
-  refresh-exp: ${JWT_REFRESH_EXP}
-  access-exp: ${JWT_ACCESS_EXP}
-  prefix: ${JWT_PREFIX}
-  header: ${JWT_HEADER}
-  secret-key: ${JWT_SECRET_KEY}
-
-app:
-  apiUrl: ${APP_URL}
-  apiKey: ${APP_API_KEY}
-  type: json
-  pIndex: 1
-  pSize: 10
-
-cloud:
-  aws:
-    region:
-      static: ${AWS_REGION}
-    stack:
-      auto: false
-
-aws:
-  access-key: ${AWS_ACCESS_KEY}
-  secret-key: ${AWS_SECRET_KEY}
-  region: ${AWS_REGION}
-  bucket: ${AWS_BUCKET}
-  url: ${AWS_URL}
-
-server:
-  port: ${SERVER_PORT}
-  forward-headers-strategy: framework
-  error:
-    whitelabel:
-      enabled: false
-
+  application:
+    name: dasarang
+  profiles:
+    active: config
+  config:
+    import: optional:configserver:http://localhost:8888
