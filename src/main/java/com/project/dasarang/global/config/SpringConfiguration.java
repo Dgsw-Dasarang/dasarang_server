@@ -10,7 +10,7 @@ public class SpringConfiguration implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("*")
+                .allowedOrigins("https://www.dasaedu.com")
                 .allowedMethods("*")
                 .allowCredentials(false);
     }
