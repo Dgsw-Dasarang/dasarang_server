@@ -41,7 +41,11 @@ public enum ErrorCode implements ErrorProperty{
     IMAGE_USED(HttpStatus.CONFLICT, "이미지가 이미 사용중입니다."),
 
     // News 코드
-    NEWS_NOT_FOUND(HttpStatus.NOT_FOUND, "소식을 찾을 수 없습니다.");
+    NEWS_NOT_FOUND(HttpStatus.NOT_FOUND, "소식을 찾을 수 없습니다."),
+
+    // Key 코드
+    KEY_NOT_FOUND(HttpStatus.NOT_FOUND, "api key를 찾을 수 없습니다."),
+    KEY_FORBIDDEN(HttpStatus.FORBIDDEN, "api key가 유효하지 않습니다.");
 
     private final HttpStatus status;
     private final String message;

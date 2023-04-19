@@ -1,6 +1,8 @@
 package com.project.dasarang.global.security;
 
 import com.project.dasarang.domain.user.domain.enums.UserType;
+import com.project.dasarang.global.security.api.ApiFilter;
+import com.project.dasarang.global.security.api.ApiProvider;
 import com.project.dasarang.global.security.jwt.JwtProvider;
 import com.project.dasarang.global.security.jwt.filter.JwtFilter;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,7 @@ import org.springframework.web.cors.CorsUtils;
 public class SecurityConfiguration {
 
     private final JwtProvider jwtProvider;
+    private final ApiProvider apiProvider;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -53,39 +56,40 @@ public class SecurityConfiguration {
 
                 // 유저 서버
                 .antMatchers(HttpMethod.GET, "/user/**").authenticated() // 유저 정보
-                .antMatchers(HttpMethod.PATCH, "/user/**").hasRole(UserType.ROLE_USER.getRole())
-                .antMatchers(HttpMethod.PATCH, "/owner/**").hasRole(UserType.ROLE_OWNER.getRole())
+                .antMatchers(HttpMethod.PATCH, "/user/**").hasRole(UserType.ROLE_USER.getRole()) // 유저 데이터 수정
+                .antMatchers(HttpMethod.PATCH, "/owner/**").hasRole(UserType.ROLE_OWNER.getRole()) // 업체 데이터 수정
 
                 // 교육 서버
-                .antMatchers(HttpMethod.GET, "/education/num/**").hasRole(UserType.ROLE_OWNER.getRole())
-                .antMatchers(HttpMethod.GET, "/education/**").permitAll()
-                .antMatchers(HttpMethod.PATCH, "/education/**").hasRole(UserType.ROLE_ADMIN.getRole())
+                .antMatchers(HttpMethod.GET, "/education/num/**").hasRole(UserType.ROLE_OWNER.getRole()) // 교육 데이터 조회
+                .antMatchers(HttpMethod.GET, "/education/**").permitAll() // 교육 데이터 조회
+                .antMatchers(HttpMethod.PATCH, "/education/**").hasRole(UserType.ROLE_ADMIN.getRole()) // 교육 데이터 수정
 
                 // 글 서버
-                .antMatchers(HttpMethod.POST, "/post/**").hasRole(UserType.ROLE_OWNER.getRole())
-                .antMatchers(HttpMethod.PATCH, "/post/**").hasRole(UserType.ROLE_OWNER.getRole())
-                .antMatchers(HttpMethod.DELETE, "/post/**").hasRole(UserType.ROLE_OWNER.getRole())
-                .antMatchers(HttpMethod.GET, "/post/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/post/**").hasRole(UserType.ROLE_OWNER.getRole()) // 게시글 작성
+                .antMatchers(HttpMethod.PATCH, "/post/**").hasRole(UserType.ROLE_OWNER.getRole()) // 게시글 수정
+                .antMatchers(HttpMethod.DELETE, "/post/**").hasRole(UserType.ROLE_OWNER.getRole()) // 게시글 삭제
+                .antMatchers(HttpMethod.GET, "/post/**").permitAll() // 게시글 조회
 
                 // 이미지 서버
-                .antMatchers(HttpMethod.POST, "/upload/**").authenticated()
-                .antMatchers(HttpMethod.GET, "/upload/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/upload/**").authenticated() // 이미지 업로드
+                .antMatchers(HttpMethod.GET, "/upload/**").permitAll() // 이미지 조회
 
                 // 관리자 서버
-                .antMatchers("/admin/**").hasRole(UserType.ROLE_ADMIN.getRole())
+                .antMatchers("/admin/**").hasRole(UserType.ROLE_ADMIN.getRole()) // 관리자 전체
 
                 // 소식 서버
-                .antMatchers(HttpMethod.POST, "/news/**").hasRole(UserType.ROLE_ADMIN.getRole())
-                .antMatchers(HttpMethod.PATCH, "/news/**").hasRole(UserType.ROLE_ADMIN.getRole())
-                .antMatchers(HttpMethod.DELETE, "/news/**").hasRole(UserType.ROLE_ADMIN.getRole())
-                .antMatchers(HttpMethod.GET, "/news/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/news/**").hasRole(UserType.ROLE_ADMIN.getRole()) // 소식 작성
+                .antMatchers(HttpMethod.PATCH, "/news/**").hasRole(UserType.ROLE_ADMIN.getRole()) // 소식 수정
+                .antMatchers(HttpMethod.DELETE, "/news/**").hasRole(UserType.ROLE_ADMIN.getRole()) // 소식 삭제
+                .antMatchers(HttpMethod.GET, "/news/**").permitAll() // 소식 조회
 
                 // 정적 페이지
-                .antMatchers("/*.html").permitAll()
+                .antMatchers("/*.html").permitAll() // 정적 페이지
 
                 .anyRequest().denyAll()
                 .and()
-                .addFilterBefore(new JwtFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new JwtFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new ApiFilter(apiProvider), JwtFilter.class);
 
         return http.build();
     }
