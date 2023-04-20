@@ -13,7 +13,6 @@ public class SpringConfiguration implements WebMvcConfigurer {
                 .allowedOrigins("*")
                 .allowedMethods("*")
                 .allowedHeaders("Origin, X-Requested-With, Content-Type, Accept, Authorization, key")
-                .allowCredentials(true)
-                .maxAge(3600);
+                .allowCredentials(false);
     }
 }
