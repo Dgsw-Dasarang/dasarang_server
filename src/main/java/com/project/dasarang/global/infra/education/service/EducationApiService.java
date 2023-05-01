@@ -57,10 +57,11 @@ public class EducationApiService {
                 educationRepository.save(education);
             } else {
                 Education education = item.toEntity();
-                if(!checkTuition) education.addTuition(getTuitionList(item.getPSNBY_THCC_CNTNT()));
+                if(!checkTuition) education.addTuition(getTuitionList(item.getPSNBY_THCC_CNTNT(), education));
                 educationRepository.save(education);
             }
         }
+
 
         log.info("Update Finish");
     }
