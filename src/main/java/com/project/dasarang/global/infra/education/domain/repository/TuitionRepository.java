@@ -18,4 +18,5 @@ public interface TuitionRepository extends JpaRepository<Tuition, Long> {
 
     void deleteAllByTitle(String title);
 
+    Optional<Tuition> findByTitle(String title);
 }

@@ -86,12 +86,19 @@ public class EducationApiService {
         return Arrays.stream(tuitions).map(tuition -> {
             String title = tuition.split(":")[0];
             int price = Integer.parseInt(tuition.split(":")[1]);
-            if(tuitionRepository.existsByTitle(title))
-                tuitionRepository.deleteAllByTitle(title);
-            return Tuition.builder()
-                    .title(title)
-                    .price(price)
-                    .build();
+
+            Tuition tu = null;
+            if(tuitionRepository.existsByTitle(title)) {
+                tu = tuitionRepository.findByTitle(title).get();
+                tu.updatePrice(price);
+            } else {
+                tu = Tuition.builder()
+                        .title(title)
+                        .price(price)
+                        .build();
+            }
+
+            return tu;
         }).collect(Collectors.toList());
     }
 
