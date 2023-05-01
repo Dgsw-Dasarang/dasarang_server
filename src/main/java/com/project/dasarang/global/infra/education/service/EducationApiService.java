@@ -44,6 +44,7 @@ public class EducationApiService {
                 .getJSONObject(1)
                 .getJSONArray("row");
         List<RowDto> dtoList = jsonArrayToList(data);
+        tuitionRepository.deleteAll();
 
         for(RowDto item : dtoList) {
             boolean checkTuition = item.getPSNBY_THCC_CNTNT().equals("null");
@@ -57,11 +58,10 @@ public class EducationApiService {
                 educationRepository.save(education);
             } else {
                 Education education = item.toEntity();
-                if(!checkTuition) education.addTuition(getTuitionList(item.getPSNBY_THCC_CNTNT(), education));
+                if(!checkTuition) education.addTuition(getTuitionList(item.getPSNBY_THCC_CNTNT(), null));
                 educationRepository.save(education);
             }
         }
-
 
         log.info("Update Finish");
     }
@@ -87,20 +87,11 @@ public class EducationApiService {
         return Arrays.stream(tuitions).map(tuition -> {
             String title = tuition.split(":")[0];
             int price = Integer.parseInt(tuition.split(":")[1]);
-            log.info(title + " : " + price);
 
-            Tuition tu = null;
-            if(tuitionRepository.existsByTitle(title)) {
-                tu = tuitionRepository.findByTitleAndEducation(title, education).get();
-                tu.updatePrice(price);
-            } else {
-                tu = Tuition.builder()
-                        .title(title)
-                        .price(price)
-                        .build();
-            }
-
-            return tu;
+            return Tuition.builder()
+                    .title(title)
+                    .price(price)
+                    .build();
         }).collect(Collectors.toList());
     }
 
