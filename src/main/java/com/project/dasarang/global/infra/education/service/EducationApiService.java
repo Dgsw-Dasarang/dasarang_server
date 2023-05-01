@@ -49,7 +49,7 @@ public class EducationApiService {
             boolean checkTuition = item.getPSNBY_THCC_CNTNT().equals("null");
             if (educationRepository.existsByAcaAsnum(item.getACA_ASNUM())) {
                 Education education = educationRepository.findByAcaAsnum(item.getACA_ASNUM()).get();
-                if(!checkTuition) education.addTuition(getTuitionList(item.getPSNBY_THCC_CNTNT()));
+                if(!checkTuition) education.addTuition(getTuitionList(item.getPSNBY_THCC_CNTNT(), education));
                 education.updateEducation(item.getADMST_ZONE_NM(), item.getACA_NM(),
                         item.getESTBL_YMD(), item.getREG_STTUS_NM(),
                         item.getTOFOR_SMTOT(), item.getLE_CRSE_NM(),
@@ -81,7 +81,7 @@ public class EducationApiService {
         return data;
     }
 
-    public List<Tuition> getTuitionList(String item) {
+    public List<Tuition> getTuitionList(String item, Education education) {
         String[] tuitions = item.split("/ ");
         return Arrays.stream(tuitions).map(tuition -> {
             String title = tuition.split(":")[0];
@@ -89,7 +89,7 @@ public class EducationApiService {
 
             Tuition tu = null;
             if(tuitionRepository.existsByTitle(title)) {
-                tu = tuitionRepository.findByTitle(title).get();
+                tu = tuitionRepository.findByTitleAndEducation(title, education).get();
                 tu.updatePrice(price);
             } else {
                 tu = Tuition.builder()
