@@ -87,6 +87,7 @@ public class EducationApiService {
         return Arrays.stream(tuitions).map(tuition -> {
             String title = tuition.split(":")[0];
             int price = Integer.parseInt(tuition.split(":")[1]);
+            log.info(title + " : " + price);
 
             Tuition tu = null;
             if(tuitionRepository.existsByTitle(title)) {
