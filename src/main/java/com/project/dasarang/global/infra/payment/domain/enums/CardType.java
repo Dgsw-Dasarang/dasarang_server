@@ -5,10 +5,11 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum PaymentType {
+public enum CardType {
 
-    ONE("일회성 결제"),
-    REGULAR("정기 결제");
+    CREDIT("신용카드"),
+    CHECK("체크카드"),
+    GIFT("기프트");
 
     private final String name;
 

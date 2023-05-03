@@ -2,23 +2,21 @@ package com.project.dasarang.global.infra.payment.domain;
 
 import com.project.dasarang.domain.user.domain.User;
 import com.project.dasarang.global.entity.BaseTime;
-import com.project.dasarang.global.infra.payment.domain.enums.PayType;
-import com.project.dasarang.global.infra.payment.domain.enums.PaymentStatus;
-import com.project.dasarang.global.infra.payment.domain.enums.PaymentType;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.List;
 
 @Entity
 @Table(name = "tb_payment")
@@ -36,19 +34,26 @@ public class Payment extends BaseTime {
         this.user = user;
     }
 
-    @Enumerated(EnumType.STRING)
-    private PaymentType type;
+    private String requestedAt;
+    private String approvedAt;
+    private int price;
+    private String receiptUrl;
+    private String checkoutUrl;
+    private String customerKey;
 
-    @Enumerated(EnumType.STRING)
-    private PaymentStatus status;
-
-    @Enumerated(EnumType.STRING)
-    private PayType payType;
+    @OneToMany(mappedBy = "payment", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Card> cardList;
+    public void addCard(Card card) {
+        getCardList().add(card);
+    }
 
     @Builder
-    public Payment(PaymentType type, PaymentStatus status, PayType payType) {
-        this.type = type;
-        this.status = status;
-        this.payType = payType;
+    public Payment(String requestedAt, String approvedAt, int price, String receiptUrl, String checkoutUrl, String customerKey) {
+        this.requestedAt = requestedAt;
+        this.approvedAt = approvedAt;
+        this.price = price;
+        this.receiptUrl = receiptUrl;
+        this.checkoutUrl = checkoutUrl;
+        this.customerKey = customerKey;
     }
 }
