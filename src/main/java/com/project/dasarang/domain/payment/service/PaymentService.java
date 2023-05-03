@@ -1,4 +1,4 @@
-package com.project.dasarang.global.infra.payment.service;
+package com.project.dasarang.domain.payment.service;
 
 import com.project.dasarang.domain.user.domain.User;
 import com.project.dasarang.domain.user.domain.enums.UserStatus;
@@ -7,8 +7,9 @@ import com.project.dasarang.domain.user.facade.UserFacade;
 import com.project.dasarang.global.infra.payment.domain.Card;
 import com.project.dasarang.global.infra.payment.domain.Payment;
 import com.project.dasarang.global.infra.payment.domain.repository.PaymentRepository;
-import com.project.dasarang.global.infra.payment.dto.request.IssueBillingRequest;
+import com.project.dasarang.domain.payment.presentation.dto.reqeust.IssueBillingRequest;
 import com.project.dasarang.global.infra.payment.dto.response.PaymentReturnResponse;
+import com.project.dasarang.global.infra.payment.service.TossService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

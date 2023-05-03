@@ -83,6 +83,9 @@ public class SecurityConfiguration {
                 .antMatchers(HttpMethod.DELETE, "/news/**").hasRole(UserType.ROLE_ADMIN.getRole()) // 소식 삭제
                 .antMatchers(HttpMethod.GET, "/news/**").permitAll() // 소식 조회
 
+                // 결제 서버
+                .antMatchers(HttpMethod.POST, "/payment/**").hasRole(UserType.ROLE_OWNER.getRole()) // 정기 결제
+
                 // 정적 페이지
                 .antMatchers("/*.html").permitAll() // 정적 페이지
 

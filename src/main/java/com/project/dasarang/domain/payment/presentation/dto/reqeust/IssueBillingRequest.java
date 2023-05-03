@@ -1,4 +1,4 @@
-package com.project.dasarang.global.infra.payment.dto.request;
+package com.project.dasarang.domain.payment.presentation.dto.reqeust;
 
 import lombok.AccessLevel;
 import lombok.Getter;

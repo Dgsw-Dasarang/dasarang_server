@@ -4,7 +4,7 @@ import com.project.dasarang.domain.user.domain.User;
 import com.project.dasarang.global.config.WebClientConfiguration;
 import com.project.dasarang.global.infra.payment.TossProperties;
 import com.project.dasarang.global.infra.payment.dto.request.ApprovePaymentRequest;
-import com.project.dasarang.global.infra.payment.dto.request.IssueBillingRequest;
+import com.project.dasarang.domain.payment.presentation.dto.reqeust.IssueBillingRequest;
 import com.project.dasarang.global.infra.payment.dto.response.BillingResponse;
 import com.project.dasarang.global.infra.payment.dto.response.PaymentResponse;
 import com.project.dasarang.global.infra.payment.dto.response.PaymentReturnResponse;
