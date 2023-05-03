@@ -18,6 +18,8 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
+import java.util.Random;
+
 @Service
 @RequiredArgsConstructor
 public class TossService {
@@ -84,7 +86,12 @@ public class TossService {
     }
 
     public String createOrder() {
-        return "";
+        Random random = new Random();
+
+        return random.ints(48, 123)
+                .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97)).limit(40)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
     }
 
 }
