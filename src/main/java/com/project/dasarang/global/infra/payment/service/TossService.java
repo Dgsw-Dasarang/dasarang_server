@@ -66,6 +66,10 @@ public class TossService {
                 });
     }
 
+    public void canclePayment() {
+        // TODO 정기결제 취소
+    }
+
     public Mono<BillingResponse> getBillingKey(IssueBillingRequest request) {
         return webClient.tossClient()
                 .post()

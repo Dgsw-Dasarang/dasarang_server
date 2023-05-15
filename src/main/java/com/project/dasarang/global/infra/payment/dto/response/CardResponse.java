@@ -3,13 +3,16 @@ package com.project.dasarang.global.infra.payment.dto.response;
 import com.project.dasarang.global.infra.payment.domain.Card;
 import com.project.dasarang.global.infra.payment.domain.enums.CardType;
 import com.project.dasarang.global.infra.payment.domain.enums.OwnerType;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
 @Getter @Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class CardResponse implements Serializable {
 

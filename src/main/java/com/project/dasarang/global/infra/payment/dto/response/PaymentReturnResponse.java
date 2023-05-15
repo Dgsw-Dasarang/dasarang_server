@@ -1,14 +1,15 @@
 package com.project.dasarang.global.infra.payment.dto.response;
 
 import com.project.dasarang.global.infra.payment.domain.Payment;
-import com.project.dasarang.global.infra.payment.domain.enums.CardType;
-import com.project.dasarang.global.infra.payment.domain.enums.PayType;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 
 @Getter @Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class PaymentReturnResponse {
 
