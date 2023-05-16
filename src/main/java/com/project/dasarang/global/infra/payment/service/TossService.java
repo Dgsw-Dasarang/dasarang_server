@@ -13,6 +13,7 @@ import com.project.dasarang.global.infra.payment.exception.PaymentInfoException;
 import com.project.dasarang.global.infra.payment.exception.PaymentServerException;
 import com.project.dasarang.global.infra.payment.exception.PaymentUnauthorizedKeyException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.Random;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class TossService {
@@ -39,6 +41,7 @@ public class TossService {
                 .taxFreeAmount(0).cardInstallmentPlan(0)
                 .build();
 
+        log.info(response.getBillingKey());
         PaymentResponse approveResponse = approvePayment(response.getBillingKey(), approveRequest).block();
 
         assert approveResponse != null;
