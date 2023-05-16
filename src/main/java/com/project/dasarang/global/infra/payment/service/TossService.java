@@ -41,7 +41,8 @@ public class TossService {
                 .taxFreeAmount(0).cardInstallmentPlan(0)
                 .build();
 
-        log.info(response.getBillingKey());
+        log.info("BillingKey : " + response.getBillingKey());
+        log.info("CustomerKey : " + response.getCustomerKey());
         PaymentResponse approveResponse = approvePayment(response.getBillingKey(), approveRequest).block();
 
         assert approveResponse != null;
