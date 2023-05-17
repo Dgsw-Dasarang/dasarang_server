@@ -25,7 +25,7 @@ public class WebClientConfiguration implements WebFluxConfigurer {
     public WebClient tossClient() {
         return WebClient.builder()
                 .baseUrl(tossProperties.getUrl())
-                .defaultHeader("Authorization", "Basic " + Base64.getEncoder().encodeToString(tossProperties.getSecretKey().getBytes()))
+                .defaultHeader("Authorization", "Basic " + tossProperties.getSecretKey())
                 .build();
     }
 
