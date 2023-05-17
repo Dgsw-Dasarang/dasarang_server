@@ -2,6 +2,7 @@ package com.project.dasarang.domain.payment.service;
 
 import com.project.dasarang.domain.user.domain.User;
 import com.project.dasarang.domain.user.domain.enums.UserStatus;
+import com.project.dasarang.domain.user.domain.repository.UserRepository;
 import com.project.dasarang.domain.user.exception.UserAlreadyActiveException;
 import com.project.dasarang.domain.user.facade.UserFacade;
 import com.project.dasarang.global.infra.payment.domain.Card;
@@ -19,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class PaymentService {
 
     private final UserFacade userFacade;
+    private final UserRepository userRepository;
     private final PaymentRepository paymentRepository;
     private final TossService tossService;
 
@@ -39,6 +41,7 @@ public class PaymentService {
         payment.setUser(user);
         payment.addCard(card);
         paymentRepository.save(payment);
+        userRepository.save(user);
     }
 
 }
