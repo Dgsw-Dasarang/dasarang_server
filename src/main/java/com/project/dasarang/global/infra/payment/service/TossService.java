@@ -82,6 +82,7 @@ public class TossService {
                 .bodyValue(request)
                 .exchangeToMono(clientResponse -> {
                     if(clientResponse.statusCode().equals(HttpStatus.BAD_REQUEST)) {
+                        log.info(clientResponse.toString());
                         throw PaymentInfoException.EXCEPTION;
                     } else if(clientResponse.statusCode().equals(HttpStatus.FORBIDDEN)) {
                         throw PaymentForbiddenException.EXCEPTION;
