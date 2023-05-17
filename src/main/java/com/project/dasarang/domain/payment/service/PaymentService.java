@@ -11,9 +11,11 @@ import com.project.dasarang.domain.payment.presentation.dto.reqeust.IssueBilling
 import com.project.dasarang.global.infra.payment.dto.response.PaymentReturnResponse;
 import com.project.dasarang.global.infra.payment.service.TossService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PaymentService {
@@ -34,6 +36,7 @@ public class PaymentService {
         Card card = response.getCard().toEntity();
         Payment payment = response.toEntity();
 
+        log.info(card.getNumber());
         user.setStatus(UserStatus.ACTIVE);
         card.setPayment(payment);
         payment.addCard(card);
