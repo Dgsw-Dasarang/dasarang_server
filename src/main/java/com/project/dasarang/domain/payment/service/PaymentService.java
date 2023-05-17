@@ -54,6 +54,7 @@ public class PaymentService {
         payment.setUser(user);
         payment.addCard(card);
         paymentRepository.save(payment);
+        userRepository.save(user);
     }
 
 }
