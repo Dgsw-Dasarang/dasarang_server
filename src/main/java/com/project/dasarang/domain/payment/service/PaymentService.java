@@ -7,9 +7,12 @@ import com.project.dasarang.domain.user.exception.UserAlreadyActiveException;
 import com.project.dasarang.domain.user.facade.UserFacade;
 import com.project.dasarang.global.infra.payment.domain.Card;
 import com.project.dasarang.global.infra.payment.domain.Payment;
+import com.project.dasarang.global.infra.payment.domain.repository.CardRepository;
 import com.project.dasarang.global.infra.payment.domain.repository.PaymentRepository;
 import com.project.dasarang.domain.payment.presentation.dto.reqeust.IssueBillingRequest;
 import com.project.dasarang.global.infra.payment.dto.response.PaymentReturnResponse;
+import com.project.dasarang.global.infra.payment.exception.CardAlreadyExistsException;
+import com.project.dasarang.global.infra.payment.exception.PaymentAlreadyExistsException;
 import com.project.dasarang.global.infra.payment.service.TossService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,6 +25,7 @@ public class PaymentService {
     private final UserFacade userFacade;
     private final UserRepository userRepository;
     private final PaymentRepository paymentRepository;
+    private final CardRepository cardRepository;
     private final TossService tossService;
 
     @Transactional
@@ -33,15 +37,23 @@ public class PaymentService {
 
         PaymentReturnResponse response = tossService.payment(request, user);
 
+        cardRepository.findByNumber(response.getCard().getNumber())
+                .ifPresent(m -> {
+                    throw CardAlreadyExistsException.EXCEPTION;
+                });
+
+        paymentRepository.findByPaymentKey(response.getPaymentKey())
+                .ifPresent(m -> {
+                    throw PaymentAlreadyExistsException.EXCEPTION;
+                });
+
         Card card = response.getCard().toEntity();
         Payment payment = response.toEntity();
 
         user.setStatus(UserStatus.ACTIVE);
-        card.setPayment(payment);
         payment.setUser(user);
         payment.addCard(card);
         paymentRepository.save(payment);
-        userRepository.save(user);
     }
 
 }

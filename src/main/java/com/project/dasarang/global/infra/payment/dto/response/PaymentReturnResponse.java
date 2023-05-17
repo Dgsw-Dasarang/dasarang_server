@@ -18,6 +18,7 @@ public class PaymentReturnResponse {
     private int price;
     private String receiptUrl;
     private String checkoutUrl;
+    private String paymentKey;
     private String customerKey;
     private CardResponse card;
 
@@ -28,6 +29,7 @@ public class PaymentReturnResponse {
                 .price(payment.getTotalAmount().intValue())
                 .receiptUrl(payment.getReceipt().getUrl())
                 .checkoutUrl(payment.getCheckout().getUrl())
+                .paymentKey(payment.getPaymentKey())
                 .customerKey(customerKey)
                 .card(payment.getCard())
                 .build();
@@ -40,6 +42,7 @@ public class PaymentReturnResponse {
                 .price(this.price)
                 .receiptUrl(this.receiptUrl)
                 .checkoutUrl(this.checkoutUrl)
+                .paymentKey(this.paymentKey)
                 .customerKey(this.customerKey)
                 .build();
     }

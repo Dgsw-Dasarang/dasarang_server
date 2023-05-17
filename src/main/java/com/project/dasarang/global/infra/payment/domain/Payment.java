@@ -1,6 +1,7 @@
 package com.project.dasarang.global.infra.payment.domain;
 
 import com.project.dasarang.domain.user.domain.User;
+import com.project.dasarang.domain.user.domain.enums.UserStatus;
 import com.project.dasarang.global.entity.BaseTime;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -8,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -40,21 +42,25 @@ public class Payment extends BaseTime {
     private int price;
     private String receiptUrl;
     private String checkoutUrl;
+    @Column(unique = true)
+    private String paymentKey;
     private String customerKey;
 
     @OneToMany(mappedBy = "payment", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Card> cardList;
     public void addCard(Card card) {
+        card.setPayment(this);
         getCardList().add(card);
     }
 
     @Builder
-    public Payment(String requestedAt, String approvedAt, int price, String receiptUrl, String checkoutUrl, String customerKey) {
+    public Payment(String requestedAt, String approvedAt, int price, String receiptUrl, String checkoutUrl,String paymentKey, String customerKey) {
         this.requestedAt = requestedAt;
         this.approvedAt = approvedAt;
         this.price = price;
         this.receiptUrl = receiptUrl;
         this.checkoutUrl = checkoutUrl;
+        this.paymentKey = paymentKey;
         this.customerKey = customerKey;
         this.cardList = new ArrayList<>();
     }
