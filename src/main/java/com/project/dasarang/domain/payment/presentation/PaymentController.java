@@ -1,6 +1,8 @@
 package com.project.dasarang.domain.payment.presentation;
 
+import com.project.dasarang.domain.payment.presentation.dto.reqeust.CancelPaymentRequest;
 import com.project.dasarang.domain.payment.presentation.dto.reqeust.IssueBillingRequest;
+import com.project.dasarang.domain.payment.presentation.dto.response.CancelPaymentResponse;
 import com.project.dasarang.domain.payment.service.PaymentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -27,6 +29,14 @@ public class PaymentController {
             @RequestBody IssueBillingRequest request
     ) {
         paymentService.payment(request);
+    }
+
+    @Operation(summary = "정기 결제 취소")
+    @PostMapping("/cancel")
+    public CancelPaymentResponse cancelPayment(
+            @RequestBody CancelPaymentRequest request
+    ) {
+        return paymentService.cancelPayment(request);
     }
 
 }
