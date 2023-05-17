@@ -40,6 +40,11 @@ public class User extends BaseTime {
 
     private String birth;
 
+    private String customerKey;
+    public void setCustomerKey(String customerKey) {
+        this.customerKey = customerKey;
+    }
+
     @Enumerated(EnumType.STRING)
     private UserType authority;
 

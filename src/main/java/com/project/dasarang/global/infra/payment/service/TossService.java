@@ -5,11 +5,14 @@ import com.project.dasarang.global.config.WebClientConfiguration;
 import com.project.dasarang.global.infra.payment.TossProperties;
 import com.project.dasarang.global.infra.payment.dto.request.ApprovePaymentRequest;
 import com.project.dasarang.domain.payment.presentation.dto.reqeust.IssueBillingRequest;
+import com.project.dasarang.domain.payment.presentation.dto.reqeust.CancelPaymentRequest;
 import com.project.dasarang.global.infra.payment.dto.response.BillingResponse;
+import com.project.dasarang.global.infra.payment.dto.response.CancelPaymentReturnResponse;
 import com.project.dasarang.global.infra.payment.dto.response.PaymentResponse;
 import com.project.dasarang.global.infra.payment.dto.response.PaymentReturnResponse;
 import com.project.dasarang.global.infra.payment.exception.PaymentForbiddenException;
 import com.project.dasarang.global.infra.payment.exception.PaymentInfoException;
+import com.project.dasarang.global.infra.payment.exception.PaymentNotFoundException;
 import com.project.dasarang.global.infra.payment.exception.PaymentServerException;
 import com.project.dasarang.global.infra.payment.exception.PaymentUnauthorizedKeyException;
 import lombok.RequiredArgsConstructor;
@@ -45,6 +48,13 @@ public class TossService {
         return PaymentReturnResponse.of(approveResponse, request.getCustomerKey());
     }
 
+    public CancelPaymentReturnResponse paymentCancel(CancelPaymentRequest request, String paymentKey) {
+        PaymentResponse cancelResponse = canclePayment(paymentKey, request).block();
+
+        assert cancelResponse != null;
+        return CancelPaymentReturnResponse.of(cancelResponse);
+    }
+
     public Mono<PaymentResponse> approvePayment(String billingKey, ApprovePaymentRequest request) {
         return webClient.tossClient()
                 .post()
@@ -66,8 +76,27 @@ public class TossService {
                 });
     }
 
-    public void canclePayment() {
-        // TODO 정기결제 취소
+    public Mono<PaymentResponse> canclePayment(String paymentKey, CancelPaymentRequest request) {
+        return webClient.tossClient()
+                .post()
+                .uri("/v1/payments/" + paymentKey + "/cancel")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(request)
+                .exchangeToMono(clientResponse -> {
+                    if(clientResponse.statusCode().equals(HttpStatus.BAD_REQUEST)) {
+                        throw PaymentInfoException.EXCEPTION;
+                    } else if(clientResponse.statusCode().equals(HttpStatus.UNAUTHORIZED)) {
+                        throw PaymentUnauthorizedKeyException.EXCEPTION;
+                    } else if(clientResponse.statusCode().equals(HttpStatus.FORBIDDEN)) {
+                        throw PaymentForbiddenException.EXCEPTION;
+                    } else if(clientResponse.statusCode().equals(HttpStatus.NOT_FOUND)) {
+                        throw PaymentNotFoundException.EXCEPTION;
+                    } else if(clientResponse.statusCode().equals(HttpStatus.INTERNAL_SERVER_ERROR)) {
+                        throw PaymentServerException.EXCEPTION;
+                    }
+
+                    return clientResponse.bodyToMono(PaymentResponse.class);
+                });
     }
 
     public Mono<BillingResponse> getBillingKey(IssueBillingRequest request) {

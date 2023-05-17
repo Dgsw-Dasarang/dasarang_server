@@ -3,6 +3,7 @@ package com.project.dasarang.global.infra.payment.domain;
 import com.project.dasarang.domain.user.domain.User;
 import com.project.dasarang.domain.user.domain.enums.UserStatus;
 import com.project.dasarang.global.entity.BaseTime;
+import com.project.dasarang.global.infra.payment.domain.enums.PaymentStatus;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,6 +12,8 @@ import lombok.NoArgsConstructor;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -46,6 +49,12 @@ public class Payment extends BaseTime {
     private String paymentKey;
     private String customerKey;
 
+    @Enumerated(EnumType.STRING)
+    private PaymentStatus status;
+    public void setStatus(PaymentStatus status) {
+        this.status = status;
+    }
+
     @OneToMany(mappedBy = "payment", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Card> cardList;
     public void addCard(Card card) {
@@ -62,6 +71,7 @@ public class Payment extends BaseTime {
         this.checkoutUrl = checkoutUrl;
         this.paymentKey = paymentKey;
         this.customerKey = customerKey;
+        this.status = PaymentStatus.PAYMENT;
         this.cardList = new ArrayList<>();
     }
 }

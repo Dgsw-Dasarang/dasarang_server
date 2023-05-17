@@ -51,6 +51,7 @@ public enum ErrorCode implements ErrorProperty{
     PAYMENT_INFO_BADREQUEST(HttpStatus.BAD_REQUEST, "입력한 정보가 올바르지 않습니다."),
     PAYMENT_UNAUTHORIZED_KEY(HttpStatus.UNAUTHORIZED, "인증되지 않은 키입니다."),
     PAYMENT_FORBIDDEN(HttpStatus.FORBIDDEN, "결제를 실패하였습니다."),
+    PAYMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "결제정보를 찾을 수 없습니다."),
     PAYMENT_INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "일시적인 오류입니다. 잠시 후 다시 시도해주세요."),
     PAYMENT_ALREAY_EXISTS(HttpStatus.CONFLICT, "정기결제가 이미 승인되어있습니다."),
 

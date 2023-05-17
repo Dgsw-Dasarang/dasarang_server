@@ -7,8 +7,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum PaymentStatus {
 
-    ACTIVE("결제"),
-    DEACTIVED("대기");
+    PAYMENT("결제"),
+    CANCEL("취소");
 
     private final String name;
 
