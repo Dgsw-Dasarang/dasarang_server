@@ -16,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -55,5 +56,6 @@ public class Payment extends BaseTime {
         this.receiptUrl = receiptUrl;
         this.checkoutUrl = checkoutUrl;
         this.customerKey = customerKey;
+        this.cardList = new ArrayList<>();
     }
 }
