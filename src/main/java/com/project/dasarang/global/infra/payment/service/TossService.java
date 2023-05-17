@@ -46,6 +46,8 @@ public class TossService {
         PaymentResponse approveResponse = approvePayment(response.getBillingKey(), approveRequest).block();
 
         assert approveResponse != null;
+        log.info("ApproveResponse : " + approveResponse);
+        log.info("CardNumber : " + approveResponse.getCard().getNumber());
         return PaymentReturnResponse.of(approveResponse, request.getCustomerKey());
     }
 
