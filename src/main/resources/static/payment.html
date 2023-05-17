@@ -1,0 +1,31 @@
+<head>
+    <meta charset="utf-8" />
+    <title>정기결제하기</title>
+    <script src="https://js.tosspayments.com/v1/payment"></script>
+</head>
+<body>
+<script>
+    const generateRandomString = (num) => {
+        const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-=_.@';
+        let result = '';
+        const charactersLength = characters.length;
+        for (let i = 0; i < num; i++) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+
+        return result;
+    }
+
+    let clientKey = 'test_ck_OALnQvDd2VJx5Q4eAZP8Mj7X41mN'
+    let tossPayments = TossPayments(clientKey)
+
+    let customerKey = generateRandomString(20);
+
+    tossPayments.requestBillingAuth('카드', {
+        customerKey,
+        successUrl: 'http://localhost:8080/success',
+        failUrl: 'http://localhost:8080/fail',
+        windowTarget: 'iframe'
+    });
+</script>
+</body>
