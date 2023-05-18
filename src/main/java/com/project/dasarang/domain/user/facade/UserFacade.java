@@ -21,7 +21,7 @@ public class UserFacade {
 
     public User getCurrentUser() {
         AuthDetails auth = (AuthDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return auth.getUser();
+        return findUserById(auth.getUser().getId());
     }
 
     @Transactional(readOnly = true)

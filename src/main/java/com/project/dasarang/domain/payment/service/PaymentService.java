@@ -60,7 +60,6 @@ public class PaymentService {
         payment.setUser(user);
         payment.addCard(card);
         paymentRepository.save(payment);
-        userRepository.save(user);
     }
 
     @Transactional
@@ -74,6 +73,7 @@ public class PaymentService {
 
         user.setStatus(UserStatus.DEACTIVATED);
         payment.setStatus(PaymentStatus.CANCEL);
+
 
         return CancelPaymentResponse.of(response);
     }
