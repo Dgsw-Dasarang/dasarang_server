@@ -9,7 +9,6 @@ import com.project.dasarang.domain.user.exception.UserAlreadyActiveException;
 import com.project.dasarang.domain.user.facade.UserFacade;
 import com.project.dasarang.global.infra.payment.domain.Card;
 import com.project.dasarang.global.infra.payment.domain.Payment;
-import com.project.dasarang.global.infra.payment.domain.enums.PaymentStatus;
 import com.project.dasarang.global.infra.payment.domain.repository.CardRepository;
 import com.project.dasarang.global.infra.payment.domain.repository.PaymentRepository;
 import com.project.dasarang.domain.payment.presentation.dto.reqeust.IssueBillingRequest;
@@ -72,8 +71,8 @@ public class PaymentService {
         CancelPaymentReturnResponse response = tossService.paymentCancel(request, payment.getPaymentKey());
 
         user.setStatus(UserStatus.DEACTIVATED);
-        payment.setStatus(PaymentStatus.CANCEL);
-
+        cardRepository.delete(payment.getCardList().get(0));
+        paymentRepository.delete(payment);
 
         return CancelPaymentResponse.of(response);
     }
