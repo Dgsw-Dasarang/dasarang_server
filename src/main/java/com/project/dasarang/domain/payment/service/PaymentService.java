@@ -2,6 +2,7 @@ package com.project.dasarang.domain.payment.service;
 
 import com.project.dasarang.domain.payment.presentation.dto.reqeust.CancelPaymentRequest;
 import com.project.dasarang.domain.payment.presentation.dto.response.CancelPaymentResponse;
+import com.project.dasarang.domain.payment.presentation.dto.response.CheckPaymentResponse;
 import com.project.dasarang.domain.user.domain.User;
 import com.project.dasarang.domain.user.domain.enums.UserStatus;
 import com.project.dasarang.domain.user.domain.repository.UserRepository;
@@ -75,6 +76,14 @@ public class PaymentService {
         paymentRepository.delete(payment);
 
         return CancelPaymentResponse.of(response);
+    }
+
+    public CheckPaymentResponse checkPayment() {
+        User user = userFacade.getCurrentUser();
+
+        boolean confirm = user.getCustomerKey() != null;
+
+        return new CheckPaymentResponse(user.getUserId(), confirm);
     }
 
 }

@@ -24,7 +24,7 @@ public class ResponseUtil {
                 .address(user.getAddress()).number(user.getNumber())
                 .type(user.getAuthority().getRole()).address(user.getAddress())
                 .ownerNumber(user.getOwnerNumber()).email(user.getEmail())
-                .birth(user.getBirth())
+                .birth(user.getBirth()).status(user.getStatus())
                 .build();
     }
 
