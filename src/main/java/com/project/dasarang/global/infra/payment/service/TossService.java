@@ -35,8 +35,8 @@ public class TossService {
         assert response != null;
 
         ApprovePaymentRequest approveRequest = ApprovePaymentRequest.builder()
-                .amount(1000).customerKey(response.getCustomerKey())
-                .orderId(createOrder()).orderName("다사랑")
+                .amount(30000).customerKey(response.getCustomerKey())
+                .orderId(createOrder()).orderName("다사랑 정기 결제")
                 .customerEmail(user.getEmail()).customerName(user.getUserId())
                 .customerMobilePhone(user.getNumber())
                 .taxFreeAmount(0).cardInstallmentPlan(0)
