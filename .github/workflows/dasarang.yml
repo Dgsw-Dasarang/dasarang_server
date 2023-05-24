@@ -45,6 +45,8 @@ jobs:
             host: ${{ secrets.HOST_PROD }}
             username: ec2-user
             key: ${{ secrets.PRIVATE_KEY }}
+            port: 22
+            timeout: 40s
             envs: GITHUB_SHA
             script: |
                 sudo docker ps -q --filter 'name=${{ secrets.CONTAINER_NAME }}' | xargs -r docker stop
