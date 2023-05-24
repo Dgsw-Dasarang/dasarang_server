@@ -1,0 +1,49 @@
+name: Dasarang CI/CD
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up JDK 11
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+        
+    - name: Gradle Build
+      run: ./gradlew build
+
+    - name: Docker Build
+      if: contains(github.ref, 'main')
+      run: |
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker build . -t ${{ secrets.DOCKER_REPO }}/${{ secrets.DOCKERI_IMAGE }}
+          docker push ${{ secrets.DOCKER_REPO }}/${{ secrets.DOCKERI_IMAGE }}
+          
+    - name: AWS Deploy
+      uses: appleboy/ssh-action@master
+      id: deploy-prod
+      if: contains(github.ref, 'main')
+      with:
+          host: ${{ secrets.HOST_PROD }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: 22
+#           key: ${{ secrets.PRIVATE_KEY }}
+          envs: GITHUB_SHA
+          script: |
+              sudo docker ps -q --filter 'name=${{ secrets.CONTAINER_NAME }}' | xargs -r docker stop
+              sudo docker ps -aq --filter 'name=${{ secrets.CONTAINER_NAME }}' | xargs -r docker rm
+              sudo docker run -d --name ${{ secrets.CONTAINER_NAME }} -p 8088:8088 --net dasarang ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKERI_IMAGE }}
