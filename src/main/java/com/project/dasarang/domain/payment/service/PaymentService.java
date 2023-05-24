@@ -72,6 +72,7 @@ public class PaymentService {
         CancelPaymentReturnResponse response = tossService.paymentCancel(request, payment.getPaymentKey());
 
         user.setStatus(UserStatus.DEACTIVATED);
+        user.setCustomerKey(null);
         cardRepository.delete(payment.getCardList().get(0));
         paymentRepository.delete(payment);
 
