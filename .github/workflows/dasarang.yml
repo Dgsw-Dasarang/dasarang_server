@@ -45,8 +45,7 @@ jobs:
         with:
             host: ${{ secrets.HOST_PROD }}
             username: ${{ secrets.USERNAME }}
-            password: ${{ secrets.PASSWORD }}
-#            key: ${{ secrets.PRIVATE_KEY }}
+            key: ${{ secrets.PRIVATE_KEY }}
             port: 22
             timeout: 40s
             envs: GITHUB_SHA
