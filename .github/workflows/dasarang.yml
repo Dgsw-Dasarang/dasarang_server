@@ -40,10 +40,8 @@ jobs:
       if: contains(github.ref, 'main')
       with:
           host: ${{ secrets.HOST_PROD }}
-          username: ${{ secrets.USERNAME }}
-          password: ${{ secrets.PASSWORD }}
-          port: 22
-#           key: ${{ secrets.PRIVATE_KEY }}
+          username: ec2-user
+          key: ${{ secrets.PRIVATE_KEY }}
           envs: GITHUB_SHA
           script: |
               sudo docker ps -q --filter 'name=${{ secrets.CONTAINER_NAME }}' | xargs -r docker stop
