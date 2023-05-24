@@ -23,7 +23,9 @@ jobs:
         distribution: 'temurin'
         
     - name: Gradle Build
-      run: ./gradlew build
+      run: |
+          chmod +x ./gradlew
+          ./gradlew clean build
 
     - name: Docker Build
       if: contains(github.ref, 'main')
