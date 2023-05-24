@@ -25,5 +25,4 @@ public class DasarangApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(DasarangApplication.class, args);
 	}
-
 }
