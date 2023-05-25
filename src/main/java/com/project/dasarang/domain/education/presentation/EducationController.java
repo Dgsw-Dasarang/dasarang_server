@@ -1,9 +1,9 @@
 package com.project.dasarang.domain.education.presentation;
 
+import com.project.dasarang.domain.education.service.EducationService;
 import com.project.dasarang.global.infra.education.domain.enums.EducationCategory;
 import com.project.dasarang.domain.education.presentation.dto.response.EducationListResponse;
 import com.project.dasarang.domain.education.presentation.dto.response.EducationResponse;
-import com.project.dasarang.domain.education.service.EducationService;
 import com.project.dasarang.global.infra.education.service.EducationApiService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

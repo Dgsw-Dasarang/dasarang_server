@@ -1,7 +1,6 @@
 package com.project.dasarang.domain.upload.presentation;
 
 import com.project.dasarang.domain.upload.domain.enums.ImageType;
-import com.project.dasarang.domain.upload.presentation.dto.request.UploadImageRequest;
 import com.project.dasarang.domain.upload.service.UploadService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

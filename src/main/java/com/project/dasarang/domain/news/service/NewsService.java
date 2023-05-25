@@ -1,23 +1,134 @@
 package com.project.dasarang.domain.news.service;
 
+import com.project.dasarang.domain.news.domain.News;
 import com.project.dasarang.domain.news.domain.enums.SearchCategory;
+import com.project.dasarang.domain.news.domain.repository.NewsRepository;
+import com.project.dasarang.domain.news.facade.NewsFacade;
 import com.project.dasarang.domain.news.presentation.dto.request.CreateNewsRequest;
 import com.project.dasarang.domain.news.presentation.dto.request.UpdateNewsRequest;
 import com.project.dasarang.domain.news.presentation.dto.response.NewsListResponse;
 import com.project.dasarang.domain.news.presentation.dto.response.NewsResponse;
+import com.project.dasarang.domain.upload.domain.Image;
+import com.project.dasarang.domain.upload.domain.repository.ImageRepository;
+import com.project.dasarang.domain.upload.exception.ImageNotFoundException;
+import com.project.dasarang.domain.upload.exception.ImageUsedException;
+import com.project.dasarang.domain.upload.exception.ImageWrongException;
+import com.project.dasarang.domain.upload.facade.UploadFacade;
+import com.project.dasarang.domain.user.domain.User;
+import com.project.dasarang.domain.user.facade.UserFacade;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-public interface NewsService {
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
-    void createNews(CreateNewsRequest request);
+@Service
+@RequiredArgsConstructor
+public class NewsService {
 
-    void updateNews(Long id, UpdateNewsRequest request);
+    private final NewsFacade newsFacade;
+    private final UserFacade userFacade;
+    private final UploadFacade uploadFacade;
+    private final NewsRepository newsRepository;
+    private final ImageRepository imageRepository;
 
-    void deleteNews(Long id);
+    @Transactional
+    public void createNews(CreateNewsRequest request) {
+        User user = userFacade.getCurrentUser();
 
-    NewsListResponse getNewsAllByCategory(int page, int size, SearchCategory category, String content);
+        News news = request.toEntity();
 
-    NewsListResponse getNewsAll(int page, int size);
+        if(!request.getImages().isEmpty()) {
+            List<Image> imageList = request.getImages().stream().map(item -> {
+                Image image = imageRepository.findById(item)
+                        .orElseThrow(() -> ImageNotFoundException.EXCEPTION);
 
-    NewsResponse getNewsById(Long id);
+                if(!Objects.isNull(image.getPost()))
+                    throw ImageUsedException.EXCEPTION;
+
+                if(!image.getAuthor().getId().equals(user.getId()))
+                    throw ImageWrongException.EXCEPTION;
+
+                return image;
+            }).peek(image -> image.setNews(news)).collect(Collectors.toList());
+
+            news.addImage(imageList);
+        }
+
+        newsRepository.save(news);
+    }
+
+    @Transactional
+    public void updateNews(Long id, UpdateNewsRequest request) {
+        News news = newsFacade.findByNewsId(id);
+        news.modifyNews(request);
+
+        newsRepository.save(news);
+    }
+
+    @Transactional
+    public void deleteNews(Long id) {
+        News news = newsFacade.findByNewsId(id);
+
+        newsRepository.delete(news);
+    }
+
+    @Transactional
+    public NewsListResponse getNewsAllByCategory(int page, int size, SearchCategory category, String content) {
+        Pageable pageable = PageRequest.of(page - 1, size, Sort.Direction.DESC, "modifiedDateTime");
+
+        Page<News> newsList = null;
+        if(category.equals(SearchCategory.CONTENT))
+             newsList = newsFacade.findAllByTitleOrContent(pageable, content);
+        else if(category.equals(SearchCategory.CATEGORY))
+            newsList = newsFacade.findAllByCategory(pageable, content);
+
+        List<NewsResponse> list = newsList.stream()
+                .map(news -> {
+                    List<Image> images = uploadFacade.findallByNews(news);
+                    return NewsResponse.of(news, images);
+                })
+                .collect(Collectors.toList());
+
+        return NewsListResponse.builder()
+                .currentPage(newsList.getNumber() + 1)
+                .hasMorePage(newsList.getTotalPages() > newsList.getNumber() + 1)
+                .list(list)
+                .build();
+    }
+
+    @Transactional
+    public NewsListResponse getNewsAll(int page, int size) {
+        Pageable pageable = PageRequest.of(page - 1, size, Sort.Direction.DESC, "modifiedDateTime");
+
+        Page<News> newsList = newsFacade.findAll(pageable);
+
+        List<NewsResponse> list = newsList.stream()
+                .map(news -> {
+                    List<Image> images = uploadFacade.findallByNews(news);
+                    return NewsResponse.of(news, images);
+                })
+                .collect(Collectors.toList());
+
+        return NewsListResponse.builder()
+                .currentPage(newsList.getNumber() + 1)
+                .hasMorePage(newsList.getTotalPages() > newsList.getNumber() + 1)
+                .list(list)
+                .build();
+    }
+
+    @Transactional
+    public NewsResponse getNewsById(Long newsId) {
+        News news = newsFacade.findByNewsId(newsId);
+        List<Image> images = uploadFacade.findallByNews(news);
+
+        return NewsResponse.of(news, images);
+    }
 
 }
