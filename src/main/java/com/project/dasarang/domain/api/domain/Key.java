@@ -23,7 +23,7 @@ public class Key extends BaseTime {
     private Long keyId;
 
     @Column(unique = true)
-    private String key;
+    private String apiKey;
 
     private String name;
     private String number;
@@ -31,7 +31,7 @@ public class Key extends BaseTime {
 
     @Builder
     public Key(String key, String name, String number, String reason) {
-        this.key = key;
+        this.apiKey = key;
         this.name = name;
         this.number = number;
         this.reason = reason;
