@@ -16,7 +16,7 @@ public class KeyResponse {
 
     public static KeyResponse of(Key key) {
         return KeyResponse.builder()
-                .key(key.getKey())
+                .key(key.getApiKey())
                 .name(key.getName())
                 .number(key.getNumber())
                 .reason(key.getReason())
