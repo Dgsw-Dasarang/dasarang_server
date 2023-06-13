@@ -6,6 +6,8 @@ import com.project.dasarang.global.security.jwt.exception.ApiKeyForbiddenExcepti
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.Base64;
+
 @Component
 @RequiredArgsConstructor
 public class ApiProvider {
@@ -14,7 +16,10 @@ public class ApiProvider {
     private final KeyRepository keyRepository;
 
     public void checkKey(String key) {
-        Key apiKey = keyRepository.findById(key)
+        byte[] encodedKeyBytes = Base64.getDecoder().decode(key);
+        String encodedKeyString = new String(encodedKeyBytes);
+
+        Key apiKey = keyRepository.findById(encodedKeyString.substring(0, encodedKeyString.length() - 1))
                 .orElseThrow(() -> ApiKeyForbiddenException.EXCEPTION);
     }
 
