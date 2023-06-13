@@ -9,4 +9,6 @@ public interface KeyRepository extends JpaRepository<Key, String> {
 
     Optional<Key> findByNameAndNumber(String name, String number);
 
+    Optional<Key> findByApiKey(String key);
+
 }
