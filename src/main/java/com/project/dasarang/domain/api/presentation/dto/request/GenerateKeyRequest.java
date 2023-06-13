@@ -1,6 +1,6 @@
-package com.project.dasarang.global.security.api.presentation.dto.request;
+package com.project.dasarang.domain.api.presentation.dto.request;
 
-import com.project.dasarang.global.security.api.domain.Key;
+import com.project.dasarang.domain.api.domain.Key;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

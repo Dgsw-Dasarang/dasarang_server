@@ -1,4 +1,4 @@
-package com.project.dasarang.global.security.api.presentation.dto.response;
+package com.project.dasarang.domain.api.presentation.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

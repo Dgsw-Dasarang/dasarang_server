@@ -1,6 +1,6 @@
-package com.project.dasarang.global.security.api.presentation.dto.response;
+package com.project.dasarang.domain.api.presentation.dto.response;
 
-import com.project.dasarang.global.security.api.domain.Key;
+import com.project.dasarang.domain.api.domain.Key;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

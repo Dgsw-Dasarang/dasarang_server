@@ -1,6 +1,6 @@
-package com.project.dasarang.global.security.api.domain.repository;
+package com.project.dasarang.domain.api.domain.repository;
 
-import com.project.dasarang.global.security.api.domain.Key;
+import com.project.dasarang.domain.api.domain.Key;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

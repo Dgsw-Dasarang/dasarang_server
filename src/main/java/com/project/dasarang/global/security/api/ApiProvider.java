@@ -1,7 +1,7 @@
 package com.project.dasarang.global.security.api;
 
-import com.project.dasarang.global.security.api.domain.Key;
-import com.project.dasarang.global.security.api.domain.repository.KeyRepository;
+import com.project.dasarang.domain.api.domain.Key;
+import com.project.dasarang.domain.api.domain.repository.KeyRepository;
 import com.project.dasarang.global.security.jwt.exception.ApiKeyForbiddenException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

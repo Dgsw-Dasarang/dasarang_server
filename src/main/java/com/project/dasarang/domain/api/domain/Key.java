@@ -1,4 +1,4 @@
-package com.project.dasarang.global.security.api.domain;
+package com.project.dasarang.domain.api.domain;
 
 import com.project.dasarang.global.entity.BaseTime;
 import lombok.AccessLevel;

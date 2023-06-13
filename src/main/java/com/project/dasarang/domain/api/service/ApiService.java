@@ -1,11 +1,11 @@
-package com.project.dasarang.global.security.api.service;
+package com.project.dasarang.domain.api.service;
 
 import com.project.dasarang.global.security.api.ApiProperties;
-import com.project.dasarang.global.security.api.domain.Key;
-import com.project.dasarang.global.security.api.domain.repository.KeyRepository;
-import com.project.dasarang.global.security.api.presentation.dto.request.GenerateKeyRequest;
-import com.project.dasarang.global.security.api.presentation.dto.response.KeyListResponse;
-import com.project.dasarang.global.security.api.presentation.dto.response.KeyResponse;
+import com.project.dasarang.domain.api.domain.Key;
+import com.project.dasarang.domain.api.domain.repository.KeyRepository;
+import com.project.dasarang.domain.api.presentation.dto.request.GenerateKeyRequest;
+import com.project.dasarang.domain.api.presentation.dto.response.KeyListResponse;
+import com.project.dasarang.domain.api.presentation.dto.response.KeyResponse;
 import com.project.dasarang.global.security.jwt.exception.ApiKeyNotfoundException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
