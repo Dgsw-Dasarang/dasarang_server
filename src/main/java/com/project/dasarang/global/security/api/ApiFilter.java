@@ -20,10 +20,16 @@ public class ApiFilter extends OncePerRequestFilter {
         String key = request.getHeader("key");
         String path = request.getServletPath();
 
-        if(path.contains(".html") || path.contains(".ico") || path.contains("api")) {
+        if(path.contains(".html")) {
             filterChain.doFilter(request, response);
             return;
-        } else {
+        } else if(path.contains(".ico")) {
+            filterChain.doFilter(request, response);
+            return;
+        } else if(path.contains("api")) {
+            filterChain.doFilter(request, response);
+            return;
+        }else {
             if(key != null)
                 apiProvider.checkKey(key);
             else
