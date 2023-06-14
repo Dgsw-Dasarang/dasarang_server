@@ -2,7 +2,6 @@ package com.project.dasarang.global.security.api;
 
 import com.project.dasarang.global.security.jwt.exception.ApiKeyNotfoundException;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -11,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@Slf4j
 @RequiredArgsConstructor
 public class ApiFilter extends OncePerRequestFilter {
 
@@ -22,7 +20,6 @@ public class ApiFilter extends OncePerRequestFilter {
         String key = request.getHeader("key");
         String path = request.getServletPath();
 
-        log.info("api path : " + path);
         if(path.contains(".html")) {
             filterChain.doFilter(request, response);
             return;
@@ -32,7 +29,7 @@ public class ApiFilter extends OncePerRequestFilter {
         } else if(path.contains("api")) {
             filterChain.doFilter(request, response);
             return;
-        }else {
+        } else {
             if(key != null)
                 apiProvider.checkKey(key);
             else

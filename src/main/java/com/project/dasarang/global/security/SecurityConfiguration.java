@@ -84,9 +84,9 @@ public class SecurityConfiguration {
                 .antMatchers(HttpMethod.GET, "/news/**").permitAll() // 소식 조회
 
                 // API 서버
-                .antMatchers(HttpMethod.POST, "/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/**").hasRole(UserType.ROLE_ADMIN.getRole())
-                .antMatchers(HttpMethod.DELETE, "/**").hasRole(UserType.ROLE_ADMIN.getRole())
+                .antMatchers(HttpMethod.POST, "/api/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/**").hasRole(UserType.ROLE_ADMIN.getRole())
+                .antMatchers(HttpMethod.DELETE, "/api/**").hasRole(UserType.ROLE_ADMIN.getRole())
 
                 // 결제 서버
                 .antMatchers("/payment/**").hasRole(UserType.ROLE_OWNER.getRole()) // 정기 결제
