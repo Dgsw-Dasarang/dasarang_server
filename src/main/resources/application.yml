@@ -4,6 +4,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: dasarang
     password: Dasarang12!!
+
   jpa:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL8Dialect
@@ -15,6 +16,7 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: false
+
   servlet:
     multipart:
       max-file-size: 10MB
