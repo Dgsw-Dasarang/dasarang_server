@@ -88,6 +88,8 @@ public class NewsService {
              newsList = newsFacade.findAllByTitleOrContent(pageable, content);
         else if(category.equals(SearchCategory.CATEGORY))
             newsList = newsFacade.findAllByCategory(pageable, content);
+        else if(category.equals(SearchCategory.NEW))
+            newsList = newsFacade.findAll(pageable);
 
         List<NewsResponse> list = newsList.stream()
                 .map(news -> {

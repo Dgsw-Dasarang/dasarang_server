@@ -8,7 +8,8 @@ import lombok.RequiredArgsConstructor;
 public enum SearchCategory {
 
     CONTENT("content"),
-    CATEGORY("category");
+    CATEGORY("category"),
+    NEW("new");
 
     private final String explain;
 
