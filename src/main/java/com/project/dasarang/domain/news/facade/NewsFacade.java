@@ -1,6 +1,7 @@
 package com.project.dasarang.domain.news.facade;
 
 import com.project.dasarang.domain.news.domain.News;
+import com.project.dasarang.domain.news.domain.enums.NewsCategory;
 import com.project.dasarang.domain.news.domain.enums.SearchCategory;
 import com.project.dasarang.domain.news.domain.repository.NewsRepository;
 import com.project.dasarang.domain.news.exception.NewsNotFoundException;
@@ -31,7 +32,7 @@ public class NewsFacade {
     }
 
     public Page<News> findAllByCategory(Pageable pageable, String content) {
-        return newsRepository.findAllByCategory(pageable, content);
+        return newsRepository.findAllByCategory(pageable, NewsCategory.valueOf(content));
     }
 
 }
