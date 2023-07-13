@@ -43,6 +43,9 @@ public enum ErrorCode implements ErrorProperty{
     // News 코드
     NEWS_NOT_FOUND(HttpStatus.NOT_FOUND, "소식을 찾을 수 없습니다."),
 
+    // Comment 코드
+    COMMENT_EMPTY(HttpStatus.NOT_FOUND, "댓글이 비어있습니다."),
+
     // Key 코드
     KEY_NOT_FOUND(HttpStatus.NOT_FOUND, "api key를 찾을 수 없습니다."),
     KEY_FORBIDDEN(HttpStatus.FORBIDDEN, "api key가 유효하지 않습니다."),
