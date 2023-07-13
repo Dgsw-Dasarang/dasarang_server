@@ -1,5 +1,6 @@
 package com.project.dasarang.domain.post.domain;
 
+import com.project.dasarang.domain.comment.domain.PostComment;
 import com.project.dasarang.domain.post.presentation.dto.request.UpdatePostRequest;
 import com.project.dasarang.domain.upload.domain.Image;
 import com.project.dasarang.domain.user.domain.User;
@@ -42,6 +43,13 @@ public class Post extends BaseTime {
         ).close();
     }
 
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PostComment> commentList;
+    public void addComment(PostComment comment) {
+        comment.setPost(this);
+        this.commentList.add(comment);
+    }
+
     public void modifyPost(UpdatePostRequest data) {
         this.title = data.getTitle();
         this.content = data.getContent();
@@ -52,5 +60,6 @@ public class Post extends BaseTime {
         this.title = title;
         this.content = content;
         this.imageList = new ArrayList<>();
+        this.commentList = new ArrayList<>();
     }
 }

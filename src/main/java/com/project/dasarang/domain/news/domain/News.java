@@ -1,5 +1,6 @@
 package com.project.dasarang.domain.news.domain;
 
+import com.project.dasarang.domain.comment.domain.NewsComment;
 import com.project.dasarang.domain.news.domain.enums.NewsCategory;
 import com.project.dasarang.domain.news.presentation.dto.request.UpdateNewsRequest;
 import com.project.dasarang.domain.upload.domain.Image;
@@ -36,6 +37,13 @@ public class News extends BaseTime {
         ).close();
     }
 
+    @OneToMany(mappedBy = "news", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<NewsComment> commentList;
+    public void addComment(NewsComment comment) {
+        comment.setNews(this);
+        this.commentList.add(comment);
+    }
+
     public void modifyNews(UpdateNewsRequest data) {
         this.title = data.getTitle();
         this.content = data.getContent();
@@ -48,5 +56,6 @@ public class News extends BaseTime {
         this.content = content;
         this.category = category;
         this.imageList = new ArrayList<>();
+        this.commentList = new ArrayList<>();
     }
 }
