@@ -83,6 +83,10 @@ public class SecurityConfiguration {
                 .antMatchers(HttpMethod.DELETE, "/news/**").hasRole(UserType.ROLE_ADMIN.getRole()) // 소식 삭제
                 .antMatchers(HttpMethod.GET, "/news/**").permitAll() // 소식 조회
 
+                // 댓글 서버
+                .antMatchers(HttpMethod.POST, "/comment/**").authenticated()
+                .antMatchers(HttpMethod.GET, "/comment/**").permitAll()
+
                 // API 서버
                 .antMatchers(HttpMethod.POST, "/api/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/**").hasRole(UserType.ROLE_ADMIN.getRole())
