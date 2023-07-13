@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/comment/post")
 @RequiredArgsConstructor
-@Tag(name = "게시글 댓글 서버 (학원 게시글)")
+@Tag(name = "게시글 댓글 서버 (학원)")
 public class PostCommentController {
 
     private final CreatePostCommentService createPostCommentService;
