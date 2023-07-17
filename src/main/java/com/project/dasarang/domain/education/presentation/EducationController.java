@@ -1,6 +1,10 @@
 package com.project.dasarang.domain.education.presentation;
 
-import com.project.dasarang.domain.education.service.EducationService;
+import com.project.dasarang.domain.education.service.FindAllEducationByCategoryService;
+import com.project.dasarang.domain.education.service.FindAllEducationByStatusService;
+import com.project.dasarang.domain.education.service.FindAllEducationService;
+import com.project.dasarang.domain.education.service.FindEducationByAcaAsnumService;
+import com.project.dasarang.domain.education.service.FindEducationByAcaNameService;
 import com.project.dasarang.global.infra.education.domain.enums.EducationCategory;
 import com.project.dasarang.domain.education.presentation.dto.response.EducationListResponse;
 import com.project.dasarang.domain.education.presentation.dto.response.EducationResponse;
@@ -18,7 +22,11 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "교육 서버")
 public class EducationController {
 
-    private final EducationService educationService;
+    private final FindAllEducationByCategoryService findAllEducationByCategoryService;
+    private final FindAllEducationByStatusService findAllEducationByStatusService;
+    private final FindAllEducationService findAllEducationService;
+    private final FindEducationByAcaAsnumService findEducationByAcaAsnumService;
+    private final FindEducationByAcaNameService findEducationByAcaNameService;
     private final EducationApiService educationApiService;
 
     @Operation(summary = "학원지정번호로 학원데이터 조회하기")
@@ -26,7 +34,7 @@ public class EducationController {
     public EducationResponse getEducationByAcaAsnum(
             @PathVariable("academy-number") String acaAsnum
     ) {
-        return educationService.getEducationByAcaAsnum(acaAsnum);
+        return findEducationByAcaAsnumService.execute(acaAsnum);
     }
 
     @Operation(summary = "학원명으로 학원데이터 조회하기")
@@ -34,7 +42,7 @@ public class EducationController {
     public EducationResponse getEducationByAcademyName(
             @PathVariable("academy-name") String academyName
     ) {
-        return educationService.getEducationByAcaName(academyName);
+        return findEducationByAcaNameService.execute(academyName);
     }
 
     @Operation(summary = "전체 학원데이터 조회하기 (page랑 size 필요)")
@@ -43,7 +51,7 @@ public class EducationController {
             @RequestParam("page") int page,
             @RequestParam("size") int size
     ) {
-        return educationService.getEducationAll(page, size);
+        return findAllEducationService.execute(page, size);
     }
 
     @Operation(summary = "카테고리로 학원데이터 검색하기 (page랑 size랑 데이터 필요)")
@@ -54,7 +62,7 @@ public class EducationController {
             @RequestParam("category") EducationCategory category,
             @RequestParam("content") String content
     ) {
-        return educationService.getEducationByCategory(category, content, page, size);
+        return findAllEducationByCategoryService.execute(category, content, page, size);
     }
 
     @Operation(summary = "학원 상태로 전체 학원데이터 조회하기 (page랑 size, 학원 상태 필요)")
@@ -64,7 +72,7 @@ public class EducationController {
             @RequestParam("size") int size,
             @PathVariable("status") String status
     ) {
-        return educationService.getEducationAllByStatus(status, page, size);
+        return findAllEducationByStatusService.execute(status, page, size);
     }
 
     @Operation(summary = "API 데이터 업데이트")

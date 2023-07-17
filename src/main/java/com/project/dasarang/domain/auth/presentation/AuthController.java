@@ -4,7 +4,10 @@ import com.project.dasarang.domain.auth.presentation.dto.request.OwnerSignUpRequ
 import com.project.dasarang.domain.auth.presentation.dto.request.SignInRequest;
 import com.project.dasarang.domain.auth.presentation.dto.request.UserSignUpRequest;
 import com.project.dasarang.domain.auth.presentation.dto.response.TokenResponse;
-import com.project.dasarang.domain.auth.service.AuthService;
+import com.project.dasarang.domain.auth.service.OwnerSignUpService;
+import com.project.dasarang.domain.auth.service.RefreshAccessTokenService;
+import com.project.dasarang.domain.auth.service.SignInService;
+import com.project.dasarang.domain.auth.service.UserSignUpService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +20,10 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "인증 서버")
 public class AuthController {
 
-    private final AuthService userService;
+    private final UserSignUpService userSignUpService;
+    private final OwnerSignUpService ownerSignUpService;
+    private final SignInService signInService;
+    private final RefreshAccessTokenService refreshAccessTokenService;
 
     @Operation(summary = "유저 회원가입")
     @ResponseStatus(HttpStatus.CREATED)
@@ -25,7 +31,7 @@ public class AuthController {
     public void userSignUp(
             @RequestBody UserSignUpRequest request
     ) {
-        userService.userSignUp(request);
+        userSignUpService.execute(request);
     }
 
     @Operation(summary = "업체 회원가입")
@@ -34,7 +40,7 @@ public class AuthController {
     public void ownerSignUp(
             @RequestBody OwnerSignUpRequest request
     ) {
-        userService.ownerSignUp(request);
+        ownerSignUpService.execute(request);
     }
 
     @Operation(summary = "로그인")
@@ -42,13 +48,13 @@ public class AuthController {
     public TokenResponse signIn(
             @RequestBody SignInRequest request
     ) {
-        return userService.signIn(request);
+        return signInService.execute(request);
     }
 
     @Operation(summary = "토큰 재발급")
     @GetMapping("/refresh")
     public String refreshAccessToken() {
-        return userService.refreshAccessToken();
+        return refreshAccessTokenService.execute();
     }
 
 }

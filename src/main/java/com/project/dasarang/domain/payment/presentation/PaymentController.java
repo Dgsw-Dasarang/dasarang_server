@@ -4,6 +4,8 @@ import com.project.dasarang.domain.payment.presentation.dto.reqeust.CancelPaymen
 import com.project.dasarang.domain.payment.presentation.dto.reqeust.IssueBillingRequest;
 import com.project.dasarang.domain.payment.presentation.dto.response.CancelPaymentResponse;
 import com.project.dasarang.domain.payment.presentation.dto.response.CheckPaymentResponse;
+import com.project.dasarang.domain.payment.service.CancelPaymentService;
+import com.project.dasarang.domain.payment.service.CheckPaymentService;
 import com.project.dasarang.domain.payment.service.PaymentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,6 +25,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class PaymentController {
 
     private final PaymentService paymentService;
+    private final CancelPaymentService cancelPaymentService;
+    private final CheckPaymentService checkPaymentService;
 
     @Operation(summary = "정기 결제")
     @PostMapping("")
@@ -30,7 +34,7 @@ public class PaymentController {
     public void payment(
             @RequestBody IssueBillingRequest request
     ) {
-        paymentService.payment(request);
+        paymentService.execute(request);
     }
 
     @Operation(summary = "정기 결제 취소")
@@ -38,13 +42,13 @@ public class PaymentController {
     public CancelPaymentResponse cancelPayment(
             @RequestBody CancelPaymentRequest request
     ) {
-        return paymentService.cancelPayment(request);
+        return cancelPaymentService.execute(request);
     }
 
     @Operation(summary = "정기 결제 확인")
     @GetMapping("/check")
     public CheckPaymentResponse checkPayment() {
-        return paymentService.checkPayment();
+        return checkPaymentService.execute();
     }
 
 }

@@ -13,26 +13,51 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class NewsFacade {
 
     private final NewsRepository newsRepository;
 
+    @Transactional(readOnly = true)
     public News findByNewsId(Long newsId) {
         return newsRepository.findById(newsId)
                 .orElseThrow(() -> NewsNotFoundException.EXCEPTION);
     }
 
+    @Transactional(readOnly = true)
     public Page<News> findAll(Pageable pageable) {
         return newsRepository.findAll(pageable);
     }
 
+    @Transactional(readOnly = true)
     public Page<News> findAllByTitleOrContent(Pageable pageable, String content) {
         return newsRepository.findAllByTitleOrContent(pageable, content);
     }
 
+    @Transactional(readOnly = true)
+    public Page<News> findAllByCategory(SearchCategory category, Pageable pageable, String content) {
+        if(category.equals(SearchCategory.CONTENT))
+            return newsRepository.findAllByTitleOrContent(pageable, content);
+        else if(category.equals(SearchCategory.CATEGORY))
+            return newsRepository.findAllByCategory(pageable, NewsCategory.valueOf(content));
+        else if(category.equals(SearchCategory.NEW))
+            return newsRepository.findAll(pageable);
+
+        return null;
+    }
+
+    @Transactional(readOnly = true)
     public Page<News> findAllByCategory(Pageable pageable, String content) {
         return newsRepository.findAllByCategory(pageable, NewsCategory.valueOf(content));
+    }
+
+    @Transactional
+    public void save(News news) {
+        newsRepository.save(news);
+    }
+
+    @Transactional
+    public void delete(News news) {
+        newsRepository.delete(news);
     }
 
 }

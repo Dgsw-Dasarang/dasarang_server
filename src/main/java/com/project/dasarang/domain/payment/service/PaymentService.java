@@ -28,16 +28,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class PaymentService {
 
     private final UserFacade userFacade;
-    private final UserRepository userRepository;
     private final PaymentRepository paymentRepository;
     private final CardRepository cardRepository;
     private final TossService tossService;
 
     @Transactional
-    public void payment(IssueBillingRequest request) {
+    public void execute(IssueBillingRequest request) {
         User user = userFacade.getCurrentUser();
 
-        if(user.getStatus().equals(UserStatus.ACTIVE))
+        if (user.getStatus().equals(UserStatus.ACTIVE))
             throw UserAlreadyActiveException.EXCEPTION;
 
         PaymentReturnResponse response = tossService.payment(request, user);
@@ -60,31 +59,6 @@ public class PaymentService {
         payment.setUser(user);
         payment.addCard(card);
         paymentRepository.save(payment);
-    }
-
-    @Transactional
-    public CancelPaymentResponse cancelPayment(CancelPaymentRequest request) {
-        User user = userFacade.getCurrentUser();
-
-        Payment payment = paymentRepository.findByUserAndCustomerKey(user, user.getCustomerKey())
-                .orElseThrow(() -> PaymentNotFoundException.EXCEPTION);
-
-        CancelPaymentReturnResponse response = tossService.paymentCancel(request, payment.getPaymentKey());
-
-        user.setStatus(UserStatus.DEACTIVATED);
-        user.setCustomerKey(null);
-        cardRepository.delete(payment.getCardList().get(0));
-        paymentRepository.delete(payment);
-
-        return CancelPaymentResponse.of(response);
-    }
-
-    public CheckPaymentResponse checkPayment() {
-        User user = userFacade.getCurrentUser();
-
-        boolean confirm = user.getCustomerKey() != null;
-
-        return new CheckPaymentResponse(user.getUserId(), confirm);
     }
 
 }

@@ -16,7 +16,7 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class UploadFacade {
+public class ImageFacade {
 
     private final ImageRepository imageRepository;
 

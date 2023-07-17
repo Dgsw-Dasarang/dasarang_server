@@ -1,7 +1,8 @@
 package com.project.dasarang.domain.upload.presentation;
 
 import com.project.dasarang.domain.upload.domain.enums.ImageType;
-import com.project.dasarang.domain.upload.service.UploadService;
+import com.project.dasarang.domain.upload.service.FindAllImageUrlService;
+import com.project.dasarang.domain.upload.service.UploadImageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,8 @@ import java.util.List;
 @Tag(name = "이미지 서버")
 public class UploadController {
 
-    private final UploadService uploadService;
+    private final UploadImageService uploadImageService;
+    private final FindAllImageUrlService findAllImageUrlService;
 
     @Operation(summary = "이미지 업로드")
     @PostMapping("")
@@ -26,14 +28,14 @@ public class UploadController {
             @RequestParam("type") ImageType type,
             @RequestParam("image") List<MultipartFile> files
     ) {
-        return uploadService.uploadImage(files, type);
+        return uploadImageService.execute(files, type);
     }
     @Operation(summary = "게시글의 모든 이미지 가져오기")
     @GetMapping("/{post-id}")
     public List<String> getImageByPost(
             @PathVariable("post-id") Long postId
     ) {
-        return uploadService.getImageUrlByPost(postId);
+        return findAllImageUrlService.execute(postId);
     }
 
 }

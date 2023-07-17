@@ -22,12 +22,12 @@ public interface EducationRepository extends JpaRepository<Education, Long> {
     Page<Education> findAllByStatus(Pageable pageable, String status);
 
     @Query(value = "SELECT e FROM Education e WHERE e.acaAsnum  LIKE CONCAT('%', :content, '%')")
-    Page<Education> findByAcaAsnum(@Param("content") String content, Pageable pageable);
+    Page<Education> findAllByAcaAsnum(@Param("content") String content, Pageable pageable);
 
     @Query(value = "SELECT e FROM Education e WHERE e.academyName  LIKE CONCAT('%', :content, '%')")
-    Page<Education> findByAcademyName(@Param("content") String content, Pageable pageable);
+    Page<Education> findAllByAcademyName(@Param("content") String content, Pageable pageable);
 
     @Query(value = "SELECT e FROM Education e WHERE e.admstZoneName  LIKE CONCAT('%', :content, '%')")
-    Page<Education> findByAdmstZoneName(@Param("content") String content, Pageable pageable);
+    Page<Education> findAllByAdmstZoneName(@Param("content") String content, Pageable pageable);
 
 }

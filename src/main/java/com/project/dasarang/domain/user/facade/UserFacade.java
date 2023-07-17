@@ -53,4 +53,14 @@ public class UserFacade {
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
     }
 
+    @Transactional
+    public void delete(User user) {
+        userRepository.delete(user);
+    }
+
+    @Transactional
+    public void save(User user) {
+        userRepository.save(user);
+    }
+
 }

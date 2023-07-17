@@ -40,20 +40,19 @@ public class EducationFacade {
         return educationRepository.findAll(pageable);
     }
 
+    public Page<Education> findEducationByCategory(EducationCategory category, Pageable pageable, String content) {
+        if (category.equals(EducationCategory.NUMBER))
+            return educationRepository.findAllByAcaAsnum(content, pageable);
+        else if (category.equals(EducationCategory.NAME))
+            return educationRepository.findAllByAcademyName(content, pageable);
+        else if (category.equals(EducationCategory.ZONE_NAME))
+            return educationRepository.findAllByAdmstZoneName(content, pageable);
+
+        return null;
+    }
+
     public Page<Education> findEducationAllByStatus(Pageable pageable, String status) {
         return educationRepository.findAllByStatus(pageable, status);
-    }
-
-    public Page<Education> findEducationAllByAcaAsnum(Pageable pageable, String content) {
-        return educationRepository.findByAcaAsnum(content, pageable);
-    }
-
-    public Page<Education> findEducationAllByAcademyName(Pageable pageable, String content) {
-        return educationRepository.findByAcademyName(content, pageable);
-    }
-
-    public Page<Education> findEducationAllByAdmstZoneName(Pageable pageable, String content) {
-        return educationRepository.findByAdmstZoneName(content, pageable);
     }
 
 }

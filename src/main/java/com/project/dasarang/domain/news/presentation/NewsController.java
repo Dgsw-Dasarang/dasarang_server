@@ -5,7 +5,12 @@ import com.project.dasarang.domain.news.presentation.dto.request.CreateNewsReque
 import com.project.dasarang.domain.news.presentation.dto.request.UpdateNewsRequest;
 import com.project.dasarang.domain.news.presentation.dto.response.NewsListResponse;
 import com.project.dasarang.domain.news.presentation.dto.response.NewsResponse;
-import com.project.dasarang.domain.news.service.NewsService;
+import com.project.dasarang.domain.news.service.CreateNewsService;
+import com.project.dasarang.domain.news.service.DeleteNewsService;
+import com.project.dasarang.domain.news.service.FindAllNewsByCategoryService;
+import com.project.dasarang.domain.news.service.FindAllNewsService;
+import com.project.dasarang.domain.news.service.FindNewsByIdService;
+import com.project.dasarang.domain.news.service.UpdateNewsService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +23,12 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "소식 서버")
 public class NewsController {
 
-    private final NewsService newsService;
+    private final CreateNewsService createNewsService;
+    private final UpdateNewsService updateNewsService;
+    private final DeleteNewsService deleteNewsService;
+    private final FindAllNewsByCategoryService findAllNewsByCategoryService;
+    private final FindAllNewsService findAllNewsService;
+    private final FindNewsByIdService findNewsByIdService;
 
     @Operation(summary = "소식 작성하기")
     @ResponseStatus(HttpStatus.CREATED)
@@ -26,7 +36,7 @@ public class NewsController {
     public void createNews(
             @RequestBody CreateNewsRequest request
     ) {
-        newsService.createNews(request);
+        createNewsService.execute(request);
     }
 
     @Operation(summary = "소식 수정하기")
@@ -35,7 +45,7 @@ public class NewsController {
             @PathVariable("id") Long id,
             @RequestBody UpdateNewsRequest request
     ) {
-        newsService.updateNews(id, request);
+        updateNewsService.execute(id, request);
     }
 
     @Operation(summary = "소식 삭제하기")
@@ -43,7 +53,7 @@ public class NewsController {
     public void deleteNews(
             @PathVariable("id") Long id
     ) {
-        newsService.deleteNews(id);
+        deleteNewsService.execute(id);
     }
 
     @Operation(summary = "전체 소식데이터 조회하기 (page랑 size랑 데이터 필요)")
@@ -54,7 +64,7 @@ public class NewsController {
             @RequestParam("category") SearchCategory category,
             @RequestParam("content") String content
     ) {
-        return newsService.getNewsAllByCategory(page, size, category, content);
+        return findAllNewsByCategoryService.execute(page, size, category, content);
     }
 
     @Operation(summary = "소식 전체 조회하기")
@@ -63,7 +73,7 @@ public class NewsController {
             @RequestParam("page") int page,
             @RequestParam("size") int size
     ) {
-        return newsService.getNewsAll(page, size);
+        return findAllNewsService.execute(page, size);
     }
 
     @Operation(summary = "소식 상세 조회하기")
@@ -71,7 +81,7 @@ public class NewsController {
     public NewsResponse getNewsById(
             @PathVariable("id") Long id
     ) {
-        return newsService.getNewsById(id);
+        return findNewsByIdService.execute(id);
     }
 
 }

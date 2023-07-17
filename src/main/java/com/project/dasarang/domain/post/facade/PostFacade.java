@@ -13,22 +13,34 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class PostFacade {
 
     private final PostRepository postRepository;
 
+    @Transactional(readOnly = true)
     public Post findByPostId(Long postId) {
         return postRepository.findById(postId)
                 .orElseThrow(() -> PostNotFoundException.EXCEPTION);
     }
 
+    @Transactional(readOnly = true)
     public Page<Post> findAll(Pageable pageable) {
         return postRepository.findAll(pageable);
     }
 
+    @Transactional(readOnly = true)
     public Page<Post> findAllByAuthor(Pageable pageable, User author) {
         return postRepository.findAllByAuthor(pageable, author);
+    }
+
+    @Transactional
+    public void delete(Post post) {
+        postRepository.delete(post);
+    }
+
+    @Transactional
+    public void save(Post post) {
+        postRepository.save(post);
     }
 
 }
