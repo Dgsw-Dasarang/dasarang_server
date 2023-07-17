@@ -27,12 +27,13 @@ public class PostCommentController {
     private final FindPostCommentByPostService findPostCommentByPostService;
 
     @Operation(summary = "댓글 작성하기")
-    @PostMapping
+    @PostMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
     public void createPostComment(
-            @RequestBody CreateCommentRequest request
+            @RequestBody CreateCommentRequest request,
+            @PathVariable("id") Long postId
     ) {
-        createPostCommentService.execute(request);
+        createPostCommentService.execute(request, postId);
     }
 
     @Operation(summary = "게시글ID로 댓글 리스트 가져오기 (페이징 처리)")
