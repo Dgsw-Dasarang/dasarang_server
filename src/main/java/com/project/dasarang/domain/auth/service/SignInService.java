@@ -30,6 +30,7 @@ public class SignInService {
                 .accessToken(jwtProvider.generateAccessToken(user.getUserId(), user.getAuthority()))
                 .refreshToken(jwtProvider.generateRefreshToken(user.getUserId(), user.getAuthority()))
                 .name(user.getUserId()).type(user.getAuthority()).status(user.getStatus())
+                .ownerNumber(user.getOwnerNumber())
                 .build();
     }
 

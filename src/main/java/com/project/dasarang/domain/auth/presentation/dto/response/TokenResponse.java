@@ -15,5 +15,6 @@ public class TokenResponse {
     private String name;
     private UserType type;
     private UserStatus status;
+    private String ownerNumber;
 
 }
