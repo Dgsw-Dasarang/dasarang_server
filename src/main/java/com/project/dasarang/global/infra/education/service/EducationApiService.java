@@ -83,7 +83,7 @@ public class EducationApiService {
     }
 
     public List<Tuition> getTuitionList(String item, Education education) {
-        String[] tuitions = item.split("/ ");
+        String[] tuitions = item.split(", ");
         return Arrays.stream(tuitions).map(tuition -> {
             String title = tuition.split(":")[0];
             int price = Integer.parseInt(tuition.split(":")[1]);
