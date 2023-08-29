@@ -47,7 +47,7 @@ public class EducationApiService {
         tuitionRepository.deleteAll();
 
         for(RowDto item : dtoList) {
-            boolean checkTuition = item.getPSNBY_THCC_CNTNT().equals("null");
+            boolean checkTuition = item.getPSNBY_THCC_CNTNT().equals(" ");
             if (educationRepository.existsByAcaAsnum(item.getACA_ASNUM())) {
                 Education education = educationRepository.findByAcaAsnum(item.getACA_ASNUM()).get();
                 if(!checkTuition) education.addTuition(getTuitionList(item.getPSNBY_THCC_CNTNT(), education));
